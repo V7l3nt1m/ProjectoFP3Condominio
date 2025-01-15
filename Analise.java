@@ -1,5 +1,5 @@
 /*------------------------------------
-Tema: Gestão de um Condomínio
+Tema: Gestão de Condomínio
 Nome: Valentim Loth Simão Prado
 Numero: 33031
 Ficheiro: Analise.java
@@ -9,7 +9,7 @@ Data: 14/01/2025
 /*
 1. Objectivo
 Este projeto tem o objetivo de gerenciar as informações de moradores, despesas, 
-reservas de áreas comuns e manutenção do condomínio.
+reservas de áreas comuns e manutenção de um condomínio.
 
 2. Visao [Interfaces Graficas]
 - ApresentacaoVisao

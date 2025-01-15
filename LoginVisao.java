@@ -1,9 +1,9 @@
 /*------------------------------------
-Tema: Gestão de uma Padaria
+Tema: Gestão de Condomínio
 Nome: Valentim Loth Simão Prado
 Numero: 33031
 Ficheiro: LoginVisao.java
-Data: 25.05.2024
+Data: 15/01/2025
 --------------------------------------*/
 
 import javax.swing.*;
@@ -26,7 +26,7 @@ public class LoginVisao extends JFrame implements ActionListener, KeyListener
 
     public LoginVisao()
     {  
-        super("Sistema de Gestão de Padaria - SGP");
+        super("Sistema de Gestão de Condominío - SGC");
         definirTema();
         setLayout(null);
         setResizable(false);
@@ -43,7 +43,7 @@ public class LoginVisao extends JFrame implements ActionListener, KeyListener
         Color customColor = Color.decode("#B83416");
 
         logo = new JLabel();
-        iconImg = new ImageIcon("imagens/logo.jpg");
+        iconImg = new ImageIcon("imagens/logo2.jpg");
         logo.setIcon(iconImg);
         logo.setBounds(0,-100,800,600);
         add(logo);
@@ -82,7 +82,7 @@ public class LoginVisao extends JFrame implements ActionListener, KeyListener
         passwdPF.setBounds(571,200,200,30);
         passwdPF.setFont(new Font("Monospaced", Font.PLAIN,14));
         passwdPF.setBorder(BorderFactory.createLineBorder(customColor,3));
-        passwdPF.setEchoChar('#'); //mudar a letra que vem dentro do jpassword field
+        passwdPF.setEchoChar('*'); //mudar a letra que vem dentro do jpassword field
 
         add(iconPass);
         add(passwordlbl);
@@ -150,7 +150,7 @@ public class LoginVisao extends JFrame implements ActionListener, KeyListener
             if(loginValido())
             {
                 JOptionPane.showMessageDialog(null, "Bem-vindo: " + user, "Iniciar Sessão", JOptionPane.INFORMATION_MESSAGE);
-                new MenuPrincipal(user);
+                //new MenuPrincipal(user);
                 dispose();
             }
             else

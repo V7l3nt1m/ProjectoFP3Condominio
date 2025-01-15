@@ -1,9 +1,9 @@
 /*------------------------------------
-Tema: Gestão de uma Padaria
+Tema: Gestão de Condomínio
 Nome: Valentim Loth Simão Prado
 Numero: 33031
 Ficheiro: ApresentacaoVisao.java
-Data: 07.06.2024
+Data: 15/01/2025
 --------------------------------------*/
 import javax.swing.*;
 import java.awt.*;
@@ -78,8 +78,8 @@ public class ApresentacaoVisao extends JFrame
 
 
             add(scroll = new JScrollPane(areaPrincipal = new JTextArea(21,20)));
-            areaPrincipal.setText("\n\nBem vindo ao Sistema de Gestao de Padaria (SGP) \n\n" + "Este projeto tem o objetivo gerenciar as entradas, saidas, processo de producao \ne estoque de uma padaria\n\n" + 
-            "Este projecto foi criado no ambito da cadeira de Fundamentos de Programação II no\n" + 
+            areaPrincipal.setText("\n\nBem vindo ao Sistema de Gestão de um Condomínio (SGC) \n\n" + "Este projeto tem o objetivo de gerenciar as informações de moradores, despesas, \nreservas de áreas comuns e manutenção de um condomínio.\n\n" + 
+            "Este projecto foi criado no ambito da cadeira de Fundamentos de Programação III no\n" + 
             "Curso de Engenharia Informática da UCAN. \n" + 
             "\nDados do Programador:\n" + "Nome: Valentim Loth Simão Prado\n" + "Nº Processo: 1000033031\n" + 
             "\nEste sistema é de uso exclusivo aos estudantes e professores desta instituição." + 
