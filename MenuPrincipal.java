@@ -1,9 +1,9 @@
 /*------------------------------------
-Tema: Gestão de uma Padaria
+Tema: Gestão de Condomínio
 Nome: Valentim Loth Simão Prado
 Numero: 33031
 Ficheiro: MenuPrincipal.java
-Data: 25.05.2024
+Data: 18.05.2024
 --------------------------------------*/
 
 import javax.swing.*;
@@ -26,7 +26,6 @@ public class MenuPrincipal extends JFrame
     {
         super("Menu Principal | Operador: " + user);
         definirTema();
-        //separador
         setLayout(new BorderLayout(1,3));
         
         getContentPane().add(pSuper = new PainelSuperior(), BorderLayout.NORTH);
@@ -42,21 +41,22 @@ public class MenuPrincipal extends JFrame
 
     private class PainelSuperior extends JPanel
     {
-        private JButton btnOperacoes,btnEstoque,btnProducao,btnTabelas,btnAjuda,btnSair;
-        private JLabel logo, nomeUser, lblOper, lblEstoq, lblProdu, lblTable, lblAjuda, lblSair;
-        private ImageIcon imagemLogo, operLogo, sairImg, ajudaImg, estoqueImg,tableImg, produImg;
+        private JButton btnUnidade,btnMorador,btnDespesa,btnManutencao,btnTabelas,btnAjuda,btnSair;
+
+        private JLabel logo, nomeUser, lblUni, lblMorador, lblDespesa,lblManutencao, lblTable, lblAjuda, lblSair;
+        private ImageIcon imagemLogo, despesaImg, sairImg, ajudaImg,manutencaoImg, unidadeImg,tableImg, moradorImg;
         private ManipuladorEventos manipulador;
         private Color customColor, customColor2;
         private JPanel operJp;
-        private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6, popupMenu7;
-        private JMenuItem itemProdutos, itemMaterial, itemVendas;
-        private JMenuItem itemNovaEntrada,itemEditarEntrada, itemNovaVenda, itemSobreAutor, itemSobreSoftw;
-        private JMenuItem itemMateriaisPrima, itemUnidadeMedida, itemProduto, itemNivelMinimo, itemDioceses, itemParoquias;
+        private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6;
+        private JMenuItem itemCadastrarUnidade, itemVerUnidades;//unidade
+        private JMenuItem itemCadastrarMorador, itemVerMoradores;//moradores
+        private JMenuItem itemCadastrarDespesas, itemVerDespesas;//despesas
+        private JMenuItem itemCadastrarManutencao, itemVerManutencao;//manutencao
 
-        private JButton btnDefesa;
-        private JMenuItem itemCadastroDefesa, itemPesquisaDefesa;
-        private JSeparator sep1, sep2, sep3, sep4,sep5;
+        private JMenuItem itemSobreAutor, itemSobreSoftw; //aba sobre
 
+        private JMenuItem itemTipoUnidade, itemBloco, itemTipoDocumento, itemCategoriaDespesa, itemStatusManutencao;//tabelas
 
         public PainelSuperior()
         {         
@@ -66,28 +66,20 @@ public class MenuPrincipal extends JFrame
             setBorder(BorderFactory.createEmptyBorder(0,0,-60,1));
             setLayout(new GridLayout(2,21));
 
-            sep1 = new JSeparator();
-            sep2 = new JSeparator();
-            sep3 = new JSeparator();
-            sep4 = new JSeparator();
-            sep5 = new JSeparator();
-
-
             popupMenu1 = new JPopupMenu();
-            itemNovaEntrada = new JMenuItem("Nova Entrada");
-            itemEditarEntrada = new JMenuItem("Editar Entrada");
-            itemNovaVenda = new JMenuItem("Nova Venda");
+            itemCadastrarUnidade = new JMenuItem("Nova Entrada");
+            itemVerUnidades = new JMenuItem("Ver Registro");
 
-            popupMenu1.add(itemNovaEntrada);
-            popupMenu1.add(sep1);
-            popupMenu1.add(itemNovaVenda);
+            popupMenu1.add(itemCadastrarUnidade);
+            popupMenu1.add(new JSeparator());
+            popupMenu1.add(itemVerUnidades);
             
-            lblOper = new JLabel("Operações");
-            lblOper.setHorizontalAlignment(SwingConstants.CENTER);
-            lblOper.setVerticalAlignment(SwingConstants.TOP);
-            operLogo = new ImageIcon("imagens/cadastro.png");
-            btnOperacoes = new JButton(operLogo);
-            btnOperacoes.setBackground(customColor2);
+            lblUni = new JLabel("Unidade");
+            lblUni.setHorizontalAlignment(SwingConstants.CENTER);
+            lblUni.setVerticalAlignment(SwingConstants.TOP);
+            unidadeImg = new ImageIcon("imagens/cadastro.png");
+            btnUnidade = new JButton(unidadeImg);
+            btnUnidade.setBackground(customColor2);
 
 //tabelas
             lblTable = new JLabel("Tabelas");
@@ -97,21 +89,23 @@ public class MenuPrincipal extends JFrame
             btnTabelas = new JButton(tableImg);
             btnTabelas.setBackground(customColor2);
 
-           
 
-            popupMenu4 = new JPopupMenu();
-            itemMateriaisPrima = new JMenuItem("Materias Prima");
-            itemUnidadeMedida = new JMenuItem("Unidades de Medida");
-            itemProduto = new JMenuItem("Produtos");
-            itemNivelMinimo = new JMenuItem("Nivel Minimo");
+            popupMenu5 = new JPopupMenu();
+            itemTipoUnidade = new JMenuItem("Tipo de Unidade");
+            itemBloco = new JMenuItem("Bloco");
+            itemTipoDocumento = new JMenuItem("Tipo de Documento");
+            itemCategoriaDespesa = new JMenuItem("Categoria de Despesas");
+            itemStatusManutencao = new JMenuItem("Status da Manutencao");
 
-            popupMenu4.add(itemMateriaisPrima);
-            popupMenu4.add(sep2);
-            popupMenu4.add(itemUnidadeMedida);
-            popupMenu4.add(sep3);
-            popupMenu4.add(itemProduto);
-            popupMenu4.add(new JSeparator());
-            popupMenu4.add(itemNivelMinimo);
+            popupMenu5.add(itemTipoUnidade);
+            popupMenu5.add(new JSeparator());
+            popupMenu5.add(itemBloco);
+            popupMenu5.add(new JSeparator());
+            popupMenu5.add(itemTipoDocumento);
+            popupMenu5.add(new JSeparator());
+            popupMenu5.add(itemCategoriaDespesa);
+            popupMenu5.add(new JSeparator());
+            popupMenu5.add(itemStatusManutencao);
 
 //fim das tabelas
 
@@ -122,35 +116,53 @@ public class MenuPrincipal extends JFrame
             btnAjuda = new JButton(ajudaImg);
             btnAjuda.setBackground(customColor2);
 
-            popupMenu5 = new JPopupMenu();
+            popupMenu6 = new JPopupMenu();
             itemSobreAutor = new JMenuItem("Sobre o Autor");
             itemSobreSoftw = new JMenuItem("Sobre o Software");
 
 
-            popupMenu5.add(itemSobreAutor);
-            popupMenu5.add(sep4);
-            popupMenu5.add(itemSobreSoftw);
+            popupMenu6 = new JPopupMenu();
+            popupMenu6.add(itemSobreAutor);
+            popupMenu6.add(new JSeparator());
+            popupMenu6.add(itemSobreSoftw);
 
-            lblProdu = new JLabel("Producao");
-            lblProdu.setHorizontalAlignment(SwingConstants.CENTER);
-            lblProdu.setVerticalAlignment(SwingConstants.TOP);
-            produImg = new ImageIcon("imagens/product.png");
-            btnProducao = new JButton(produImg);
-            btnProducao.setBackground(customColor2);
+            lblMorador = new JLabel("Morador");
+            lblMorador.setHorizontalAlignment(SwingConstants.CENTER);
+            lblMorador.setVerticalAlignment(SwingConstants.TOP);
+            moradorImg = new ImageIcon("imagens/morador.png");
+            btnMorador = new JButton(moradorImg);
+            btnMorador.setBackground(customColor2);
 
-            lblEstoq = new JLabel("Estoque/Registros");
-            lblEstoq.setHorizontalAlignment(SwingConstants.CENTER);
-            lblEstoq.setVerticalAlignment(SwingConstants.TOP);
-            estoqueImg = new ImageIcon("imagens/estoque.png");
-            btnEstoque = new JButton(estoqueImg);
-            btnEstoque.setBackground(customColor2);
+            lblDespesa = new JLabel("Despesas");
+            lblDespesa.setHorizontalAlignment(SwingConstants.CENTER);
+            lblDespesa.setVerticalAlignment(SwingConstants.TOP);
+            despesaImg = new ImageIcon("imagens/despesas.png");
+            btnDespesa = new JButton(despesaImg);
+            btnDespesa.setBackground(customColor2);
+
+            popupMenu3 = new JPopupMenu();
+            popupMenu3.add(itemCadastrarDespesas = new JMenuItem("Nova Entrada"));
+            popupMenu3.add(new JSeparator());
+            popupMenu3.add(itemVerDespesas = new JMenuItem("Ver Registro"));
+
             
             popupMenu2 = new JPopupMenu();
-            popupMenu2.add(itemProdutos = new JMenuItem("Produtos"));
+            popupMenu2.add(itemCadastrarMorador = new JMenuItem("Nova Entrada"));
             popupMenu2.add(new JSeparator());
-            popupMenu2.add(itemMaterial = new JMenuItem("Materia Prima"));
-            popupMenu2.add(new JSeparator());
-            popupMenu2.add(itemVendas = new JMenuItem("Vendas"));
+            popupMenu2.add(itemVerMoradores = new JMenuItem("Ver Registro"));
+
+            lblManutencao = new JLabel("Manutencao");
+            lblManutencao.setHorizontalAlignment(SwingConstants.CENTER);
+            lblManutencao.setVerticalAlignment(SwingConstants.TOP);
+            manutencaoImg = new ImageIcon("imagens/manu.png");
+            btnManutencao = new JButton(manutencaoImg);
+            btnManutencao.setBackground(customColor2);
+            
+            popupMenu4 = new JPopupMenu();
+            popupMenu4.add(itemCadastrarManutencao = new JMenuItem("Nova Entrada"));
+            popupMenu4.add(new JSeparator());
+            popupMenu4.add(itemVerManutencao = new JMenuItem("Ver Registro"));
+
 
             lblSair = new JLabel("Sair");
             lblSair.setHorizontalAlignment(SwingConstants.CENTER);
@@ -160,33 +172,21 @@ public class MenuPrincipal extends JFrame
             btnSair.setBackground(customColor2);
             btnSair.setPreferredSize(new Dimension(50,50));
 
-            itemDioceses = new JMenuItem("Dioceses");
-            itemParoquias = new JMenuItem("Paroquias");
-            popupMenu4.add(itemDioceses);
-            popupMenu4.add(itemParoquias);
 
-
-            popupMenu7 = new JPopupMenu();
-
-            btnDefesa = new JButton("Defesa");
-            itemCadastroDefesa = new JMenuItem("Cadastro");
-            itemPesquisaDefesa = new JMenuItem("Pesquisa");
-            popupMenu7.add(itemCadastroDefesa);
-            popupMenu7.add(itemPesquisaDefesa);
-
-            add(btnOperacoes);
-            add(btnEstoque);
-            add(btnProducao);
+            add(btnUnidade);
+            add(btnMorador);
+            add(btnDespesa);
+            add(btnManutencao);
             add(btnTabelas);
             add(btnAjuda);
             add(btnSair);
-            add(btnDefesa);
             for(int i = 0; i<10;i++)
                 add(new JLabel());
 
-            add(lblOper);
-            add(lblEstoq);
-            add(lblProdu);
+            add(lblUni);
+            add(lblMorador);
+            add(lblDespesa);
+            add(lblManutencao);
             add(lblTable);
             add(lblAjuda);
             add(lblSair);
@@ -197,37 +197,35 @@ public class MenuPrincipal extends JFrame
           
             manipulador = new ManipuladorEventos();
 
-            btnSair.addActionListener(manipulador);
+            btnUnidade.addActionListener(manipulador);
             btnTabelas.addActionListener(manipulador);
             btnAjuda.addActionListener(manipulador);
-            btnOperacoes.addActionListener(manipulador);
-            btnEstoque.addActionListener(manipulador);
-            btnProducao.addActionListener(manipulador);
-            itemMaterial.addActionListener(manipulador);
-            itemMateriaisPrima.addActionListener(manipulador);
-            itemUnidadeMedida.addActionListener(manipulador);
-            itemProduto.addActionListener(manipulador);
-            itemProdutos.addActionListener(manipulador);
-            itemNovaEntrada.addActionListener(manipulador);
-            itemNivelMinimo.addActionListener(manipulador);
-            itemNovaVenda.addActionListener(manipulador);
-            itemVendas.addActionListener(manipulador);
+            btnMorador.addActionListener(manipulador);
+            btnDespesa.addActionListener(manipulador);
+            btnManutencao.addActionListener(manipulador);
+            btnSair.addActionListener(manipulador);
 
-            itemDioceses.addActionListener(manipulador);
-            itemParoquias.addActionListener(manipulador);
-            itemCadastroDefesa.addActionListener(manipulador);
-            itemPesquisaDefesa.addActionListener(manipulador);
-            btnDefesa.addActionListener(manipulador);
+            itemCadastrarUnidade.addActionListener(manipulador);
+            itemVerUnidades.addActionListener(manipulador);
+            itemCadastrarMorador.addActionListener(manipulador);
+            itemVerMoradores.addActionListener(manipulador);
+            itemCadastrarDespesas.addActionListener(manipulador);
+            itemVerDespesas.addActionListener(manipulador);
+            itemCadastrarManutencao.addActionListener(manipulador);
+            itemVerManutencao.addActionListener(manipulador);
+
+            itemTipoUnidade.addActionListener(manipulador);
+            itemBloco.addActionListener(manipulador);
+            itemTipoDocumento.addActionListener(manipulador);
+            itemCategoriaDespesa.addActionListener(manipulador);
+            itemStatusManutencao.addActionListener(manipulador);
+
         }
 
          private class ManipuladorEventos implements ActionListener
         {
             public void actionPerformed(ActionEvent evt)
             {
-                EstoqueFile estoqueFile = new EstoqueFile();
-                boolean verifProdutos = estoqueFile.verificarStoqueProdutos();
-                boolean verifMateria = estoqueFile.verificarStoqueMatPrim();
-
                 if(evt.getSource() == btnSair)
                 {
                     int resultado = JOptionPane.showConfirmDialog(null,"Tem certeza que deseja sair?","Saindo",JOptionPane.YES_NO_OPTION);
@@ -236,89 +234,66 @@ public class MenuPrincipal extends JFrame
                         System.exit(0);
                     }
                 }
-                else if(evt.getSource() == btnDefesa)
-                {
-                    popupMenu7.show(btnDefesa,0,btnDefesa.getHeight());
-                }
-                else if(evt.getSource() == itemPesquisaDefesa)
-                {
-                    new PesquisarDados();
-                }
-                else if(evt.getSource() == itemCadastroDefesa)
-                {
-                    new ProducaoVisaoDefesa();
-                }
-                else if(evt.getSource() == itemDioceses)
-                {
-                    Tabela2.editarNovosItems("Diocese.tab", "Nova Diocese/Arquidiocese");
-                }
-                else if(evt.getSource() == itemParoquias)
-                {
-                    Tabela3_2.editarNovosItems("Diocese.tab","Paroquia.tab","Dioceses/Arquidioceses","Paroquias","Nova Paroquia");
-                }       
                 else if(evt.getSource() == btnTabelas)
                 {
-                    popupMenu4.show(btnTabelas, 0, btnTabelas.getHeight());
+                    popupMenu5.show(btnTabelas, 0, btnTabelas.getHeight());
                 }
-                else if(evt.getSource() == itemMateriaisPrima)
+                else if(evt.getSource() == itemTipoUnidade)
                 {
-                    Tabela2.editarNovosItems("MateriaPrima.tab", "Nova Materia Prima");
+                    Tabela2.editarNovosItems("TipoUnidade.tab", "Novo Tipo de Unidade");
                 }
-                 else if(evt.getSource() == itemProduto)
+                 else if(evt.getSource() == itemBloco)
                 {
-                    Tabela2.editarNovosItems("Produto.tab", "Novo Produto");
+                    Tabela2.editarNovosItems("Bloco.tab", "Novo BLoco");
                 }
-                else if(evt.getSource() == itemUnidadeMedida)
+                else if(evt.getSource() == itemTipoDocumento)
                 {
-                    Tabela3_2.editarNovosItems("MateriaPrima.tab", "UnidadeMedida.tab", "Materias Primas", "Unidades de Medidas", "Nova Unidade de Medida");
+                    Tabela2.editarNovosItems("TipoDocumento.tab", "Novo Tipo de Documento");
                 }
-                else if(evt.getSource() == itemNivelMinimo)
+                else if(evt.getSource() == itemCategoriaDespesa)
                 {
-                    Tabela3_2.editarNovosItems("MateriaPrima.tab", "NivelMinimo.tab", "Materias Primas", "Nivel Minimo", "Novo Nivel");
+                    Tabela2.editarNovosItems("CategoriaDespesa.tab", "Nova Categoria Despesa");
+                }
+                else if(evt.getSource() == itemStatusManutencao)
+                {
+                    Tabela2.editarNovosItems("StatusManutencao.tab", "Novo Status de Manutencao");
                 }
                 else if(evt.getSource() == btnAjuda)
                 {
-                    popupMenu5.show(btnAjuda,0, btnAjuda.getHeight());
+                    popupMenu6.show(btnAjuda,0, btnAjuda.getHeight());
                 }
-                else if(evt.getSource() == btnOperacoes)
+                else if(evt.getSource() == btnUnidade)
                 {
-                    popupMenu1.show(btnOperacoes,0, btnOperacoes.getHeight());
+                    popupMenu1.show(btnUnidade,0, btnUnidade.getHeight());
                 }
-                else if(evt.getSource() == btnEstoque)
+                else if(evt.getSource() == btnMorador)
                 {
-                    popupMenu2.show(btnEstoque, 0,btnEstoque.getHeight());
+                    popupMenu2.show(btnMorador, 0,btnMorador.getHeight());
                 }
-                else if(evt.getSource() == itemProdutos)
-                    new EstoqueProdutoVisao();
-                else if(evt.getSource() == itemVendas)
-                    new VendaRegistroVisao();
-                else if(evt.getSource() == itemMaterial)
+                else if(evt.getSource() == btnDespesa)
                 {
-                    File estoqueFileE = new File("EstoqueFile.dat");
-                    File entradafileE = new File("EntradaFile.dat");
-                    if(estoqueFileE.exists() && estoqueFileE.exists())
-                        new EstoqueVisao();
-                    else
-                        JOptionPane.showMessageDialog(null, "Não há registros", "Erro", JOptionPane.ERROR_MESSAGE);
+                    popupMenu3.show(btnDespesa, 0,btnMorador.getHeight());
                 }
-                else if(evt.getSource() == itemNovaEntrada)
+                else if(evt.getSource() == btnManutencao)
                 {
-                    new EntradaVisao(false, new EntradaModelo());
+                    popupMenu4.show(btnManutencao, 0,btnMorador.getHeight());
                 }
-                else if(evt.getSource() == btnProducao)
-                    if(verifMateria)
-                    {
-                        new ProducaoVisao(false, new ProducaoModelo());
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null,"Nao ha Materia Prima em Estoque", "Verificador de Estoque", JOptionPane.ERROR_MESSAGE);
-                else if(evt.getSource() == itemNovaVenda)
-                     if(verifProdutos)
-                    {
-                        new VendaVisao(false, new VendaModelo());
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null,"Nao ha produtos em Estoque", "Verificador de Estoque", JOptionPane.ERROR_MESSAGE);
+                else if(evt.getSource() == itemCadastrarUnidade)
+                    JOptionPane.showMessageDialog(null,"Item Cadastrar Unidade");
+                else if(evt.getSource() == itemVerUnidades)
+                    JOptionPane.showMessageDialog(null,"Item Ver Registro de Unidade");
+                else if(evt.getSource() == itemCadastrarMorador)
+                    JOptionPane.showMessageDialog(null,"Item Cadastrar Morador");
+                else if(evt.getSource() == itemVerMoradores)
+                    JOptionPane.showMessageDialog(null,"Item Ver Registro de Moradores");
+                else if(evt.getSource() == itemCadastrarDespesas)
+                    JOptionPane.showMessageDialog(null,"Item Cadastrar Despesas");
+                else if(evt.getSource() == itemVerDespesas)
+                    JOptionPane.showMessageDialog(null,"Item Ver Registro de Despesas");
+                else if(evt.getSource() == itemCadastrarManutencao)
+                    JOptionPane.showMessageDialog(null,"Item Cadastrar Manutencao");
+                else if(evt.getSource() == itemVerManutencao)
+                    JOptionPane.showMessageDialog(null,"Item Ver Registro de Manutencao");
             }
         }
 
