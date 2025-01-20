@@ -26,11 +26,6 @@ reservas de áreas comuns e manutenção de um condomínio.
 - InformacoesDespesasVisao
 - InformacoesManutencaoVisao
 
-- EditarUnidadeVisao
-- EditarMoradorVisao
-- EditarDespesaVisao
-- EditarManutencaoVisao
-
 3. Entidades Fortes e Seus Atributos (Modelo)
 
 
@@ -45,6 +40,7 @@ reservas de áreas comuns e manutenção de um condomínio.
     int garagemCapacidade
     boolean statusUnidade
     int andaresDisponivel
+    Date DataDeCadastro
 
 - MoradorModelo
     int id
@@ -55,6 +51,7 @@ reservas de áreas comuns e manutenção de um condomínio.
     String email
     UnidadeModelo unidade; //id da casa ou apartamento
     boolean statusAtivo;
+    String nPorta; //000 se for casa
     boolean isResponsavel;
     int moradorResponsavelId;
 

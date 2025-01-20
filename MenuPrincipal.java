@@ -24,7 +24,7 @@ public class MenuPrincipal extends JFrame
 
     public MenuPrincipal(String user)
     {
-        super("Menu Principal | Operador: " + user);
+        super("Menu Principal | Usuario: " + user);
         definirTema();
         setLayout(new BorderLayout(1,3));
         
@@ -279,7 +279,10 @@ public class MenuPrincipal extends JFrame
                     popupMenu4.show(btnManutencao, 0,btnMorador.getHeight());
                 }
                 else if(evt.getSource() == itemCadastrarUnidade)
-                    JOptionPane.showMessageDialog(null,"Item Cadastrar Unidade");
+                {
+                    UnidadeModelo modelo = new UnidadeModelo();
+                    new UnidadeVisao(false,modelo);
+                }
                 else if(evt.getSource() == itemVerUnidades)
                     JOptionPane.showMessageDialog(null,"Item Ver Registro de Unidade");
                 else if(evt.getSource() == itemCadastrarMorador)

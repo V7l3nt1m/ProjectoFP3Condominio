@@ -150,7 +150,7 @@ public class LoginVisao extends JFrame implements ActionListener, KeyListener
             if(loginValido())
             {
                 JOptionPane.showMessageDialog(null, "Bem-vindo: " + user, "Iniciar Sessão", JOptionPane.INFORMATION_MESSAGE);
-                //new MenuPrincipal(user);
+                new MenuPrincipal(user);
                 dispose();
             }
             else
