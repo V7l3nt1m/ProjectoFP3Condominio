@@ -286,7 +286,10 @@ public class MenuPrincipal extends JFrame
                 else if(evt.getSource() == itemVerUnidades)
                     JOptionPane.showMessageDialog(null,"Item Ver Registro de Unidade");
                 else if(evt.getSource() == itemCadastrarMorador)
-                    JOptionPane.showMessageDialog(null,"Item Cadastrar Morador");
+                {
+                    UnidadeModelo modelo = new UnidadeModelo();
+                    new MoradorVisao(false,modelo);
+                }
                 else if(evt.getSource() == itemVerMoradores)
                     JOptionPane.showMessageDialog(null,"Item Ver Registro de Moradores");
                 else if(evt.getSource() == itemCadastrarDespesas)

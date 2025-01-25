@@ -8,8 +8,8 @@ Data: 14/01/2025
 
 /*
 1. Objectivo
-Este projeto tem o objetivo de gerenciar as informações de moradores, despesas, 
-reservas de áreas comuns e manutenção de um condomínio.
+Este projeto tem o objetivo de gerenciar as informações das unidades, moradores, despesas, pagamentos
+e manutenção de um condomínio.
 
 2. Visao [Interfaces Graficas]
 - ApresentacaoVisao
@@ -20,11 +20,13 @@ reservas de áreas comuns e manutenção de um condomínio.
 - MoradorVisao
 - DespesaVisao
 - ManutencaoVisao
+- PagamentoVisao
 
 - InformacoesUnidadesVisao
 - InformacoesMoradoresVisao
 - InformacoesDespesasVisao
 - InformacoesManutencaoVisao
+- InformacoesPagamentoVisao
 
 3. Entidades Fortes e Seus Atributos (Modelo)
 
@@ -40,7 +42,7 @@ reservas de áreas comuns e manutenção de um condomínio.
     int garagemCapacidade
     boolean statusUnidade
     int andaresDisponivel
-    Date DataDeCadastro
+    String dataDeCadastro
 
 - MoradorModelo
     int id
@@ -54,6 +56,16 @@ reservas de áreas comuns e manutenção de um condomínio.
     String nPorta; //000 se for casa
     boolean isResponsavel;
     int moradorResponsavelId;
+    String DataDeCadastro
+
+- PagamentoModelo
+    int id;                   // Identificador único do pagamento
+    MoradorModelo morador;    // Morador que fez o pagamento
+    UnidadeModelo unidade;    // Unidade associada ao pagamento (se necessário)
+    double valorPago;         // Valor pago
+    String dataPagamento;     // Data do pagamento
+    String tipoPagamento;     // Tipo de pagamento (ex: Mensalidade, Multa, Taxa Extra)
+    String statusPagamento;   // Status do pagamento (ex: Concluído, Pendente, Atrasado)
 
 - DespesaModelo
     int id
@@ -61,6 +73,7 @@ reservas de áreas comuns e manutenção de um condomínio.
     String dataDespesa
     double valor
     String categoriaDespesa // Ex.: Manutenção, Água, Energia, etc.
+    String DataDeCadastro
 
 - ManutencaoModelo
     int id
@@ -69,6 +82,9 @@ reservas de áreas comuns e manutenção de um condomínio.
     String statusManutencao // Ex.: Agendado, Em Andamento, Concluído
     double custo
     String fornecedor
+    String DataDeCadastro
+    UnidadeModelo unidade;
+    DespesaModelo despesa;
 
 4. Ficheiro
 - UnidadeFile.dat
@@ -82,6 +98,7 @@ reservas de áreas comuns e manutenção de um condomínio.
 - Bloco.tab
 - TipoDocumento.tab 
 - CategoriaDespesa.tab
+- TipoPagamento
 - StatusManutencao.tab
 
 6. Diversos

@@ -20,7 +20,7 @@ public class UnidadeModelo implements RegistGeneric
     int id, andares, numQuartos, garagemCapacidade,andaresDisponivel;
     StringBufferModelo numeroUnidade, tipoUnidade,bloco;
     Double area; 
-    DataModelo dataDeCadastro; 
+    StringBufferModelo dataDeCadastro; 
     boolean statusUnidade;
     LocalDate dataAtual = LocalDate.now();
 
@@ -39,14 +39,9 @@ public class UnidadeModelo implements RegistGeneric
 		numeroUnidade = new StringBufferModelo("", 20); 
 		tipoUnidade = new StringBufferModelo("", 20);
         bloco = new StringBufferModelo("", 10); 
-        System.out.println("Dia: " + dataAtual.getDayOfMonth());
-        System.out.println("Mês: " + dataAtual.getMonthValue());
-        System.out.println("Ano: " + dataAtual.getYear());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        dataDeCadastro =  new DataModelo(dataAtual.format(formatter));
-
-        System.out.println("Data: " + dataDeCadastro.toString());
+        dataDeCadastro =  new StringBufferModelo((dataAtual.format(formatter)).toString(), 15);
     }
 
     public UnidadeModelo(int id, int andares, int numQuartos, int andaresDisponivel, double area, String numeroUnidade, String tipoUnidade, String bloco,int garagemCapacidade, String statusUnidade)
@@ -62,7 +57,8 @@ public class UnidadeModelo implements RegistGeneric
 		this.tipoUnidade = new StringBufferModelo(tipoUnidade, 20);
 		this.bloco = new StringBufferModelo(bloco, 10);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        this.dataDeCadastro =  new DataModelo(dataAtual.format(formatter));
+        this.dataDeCadastro =  new StringBufferModelo((dataAtual.format(formatter)).toString(), 15);
+
         if(statusUnidade.equals("indisponivel"))
             this.statusUnidade = false;
         else
@@ -171,55 +167,84 @@ public class UnidadeModelo implements RegistGeneric
 
     public String getDataCadastro()
     {
-        return dataDeCadastro.toString();
+        return dataDeCadastro.toStringEliminatingSpaces();
     }
 
     
-        public String toString()
-        {
-            String str = "Dados da Unidade Modelo\n\n";
+    public String toString()
+    {
+        String str = "Dados da Unidade Modelo\n\n";
 
-            str += "Id: " + getId() + "\n";
-            str += "Tipo de Unidade: " + getTipoUnidade() + "\n";
-            str += "Numero da Unidade: " + getNumeroUni() + "\n";
-            str += "Bloco: " + getBloco() + "\n";
-            str += "Andares: " + getAndares() + "\n";
-            str += "Area: " + getArea() + "\n";
-            str += "Andares Disponiveis: " + getAndaresDisponiveis() + "\n";
-            str += "Numero de Quartos: " + getNumQuartos() + "\n";
-            str += "Capacidade da Garagem: " + getGaragemCapaci() + "\n";
-            str += "Estado da Unidade: " + getStatusUnidade() + "\n"; 
-            str += "Data de Cadastro: " + getDataCadastro() + "\n";
-            return str;
-        }
+        str += "Id: " + getId() + "\n";
+        str += "Tipo de Unidade: " + getTipoUnidade() + "\n";
+        str += "Numero da Unidade: " + getNumeroUni() + "\n";
+        str += "Bloco: " + getBloco() + "\n";
+        str += "Andares: " + getAndares() + "\n";
+        str += "Area: " + getArea() + "\n";
+        str += "Andares Disponiveis: " + getAndaresDisponiveis() + "\n";
+        str += "Numero de Quartos: " + getNumQuartos() + "\n";
+        str += "Capacidade da Garagem: " + getGaragemCapaci() + "\n";
+        str += "Estado da Unidade: " + getStatusUnidade() + "\n"; 
+        str += "Data de Cadastro: " + getDataCadastro() + "\n";
+        return str;
+    }
 
-        public void write(RandomAccessFile stream)
-	    {
-
-			int iasdd = 1;
-
+    public long sizeof()
+    {
         
+        try
+        {
+            return 65*2 + 4*5 + 8 + 1;// 212 bytes
+        }
+        catch(Exception ex)
+        {
+            return 0;
+        }		
+    }
+
+    public void write(RandomAccessFile stream)
+	{
+		try
+        {
+            stream.writeInt(id);
+            tipoUnidade.write(stream);
+            numeroUnidade.write(stream);
+            bloco.write(stream);
+            stream.writeInt(andares);
+            stream.writeDouble(area);
+            stream.writeInt(andaresDisponivel);
+            stream.writeInt(numQuartos);
+            stream.writeInt(garagemCapacidade);
+            dataDeCadastro.write(stream);
+            stream.writeBoolean(statusUnidade);
+        }
+        catch (IOException ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha ao tentar Ler no Ficheiro");
+		}
 	}
 
     public void read(RandomAccessFile stream)
 	{
-
-            int iasdd = 1;
-
+       try
+		{
+			id = stream.readInt();
+            tipoUnidade.read(stream);
+            numeroUnidade.read(stream);
+            bloco.read(stream);
+            andares = stream.readInt();
+            area = stream.readDouble();
+            andaresDisponivel = stream.readInt();
+            numQuartos = stream.readInt();
+            garagemCapacidade = stream.readInt();
+            dataDeCadastro.read(stream);
+            statusUnidade = stream.readBoolean();	
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha ao tentar Ler no Ficheiro");
+		}
     }
-
-        public long sizeof()
-	    {
-            
-            try
-            {
-                return 50*2 + 4*5 + 8 + 1 + 12;// 212 bytes
-            }
-            catch(Exception ex)
-            {
-                return 0;
-            }		
-	    }
 }
-
-/*Correjir o bug da data */

@@ -67,7 +67,7 @@ public class UnidadeVisao extends JFrame
         
         private JLabel lblArea, lblNumeroUni, lblAndares, lblNumQuartos, lblGaragemCap, lblAndaresDisp,lblStatusUnidade;
         private JLabel lblTipoUnidade, lblBloco;
-        private String status[] = {"indisponivel", "disponivel"};
+        private String status[] = {"disponivel","indisponivel"};
 
         public PainelCentro()
         {
@@ -84,6 +84,7 @@ public class UnidadeVisao extends JFrame
 
             lblArea = new JLabel("Area (M²)");
             areaJTF = new JTextField();
+            areaJTF.setText(""+0.0);
 
             lblNumeroUni = new JLabel("Numero da Unidade");
             numeroUniJTF = new JTextField();
