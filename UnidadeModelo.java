@@ -247,4 +247,11 @@ public class UnidadeModelo implements RegistGeneric
 			JOptionPane.showMessageDialog(null, "Falha ao tentar Ler no Ficheiro");
 		}
     }
+
+    public void salvar()
+    {
+        UnidadePNode node = new UnidadePNode(this);
+		node.save();
+        new UnidadeFile().salvarDados(this);
+    }
 }

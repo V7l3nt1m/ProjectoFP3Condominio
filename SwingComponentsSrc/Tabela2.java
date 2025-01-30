@@ -92,8 +92,8 @@ public class Tabela2  implements Serializable
   public Editar_Tabela2(String file, String NovaDesignacao)
    {
     super("Editar " + NovaDesignacao);
-    setLocationRelativeTo(null);
     contentor =  Contentor_Tabela2.createStream(file);
+            
     Container container = getContentPane();
 	container.setLayout(new GridLayout(1,3)); 
 	

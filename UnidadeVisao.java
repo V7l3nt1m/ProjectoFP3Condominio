@@ -22,6 +22,8 @@ public class UnidadeVisao extends JFrame
     private PainelSul painelSul;
     private PainelCentro painelCentro;
     boolean editar;
+    private UnidadeFile file;
+
 
     public UnidadeVisao(boolean alterar, UnidadeModelo modelo)
     {
@@ -79,8 +81,9 @@ public class UnidadeVisao extends JFrame
             blocoJCB = UInterfaceBox.createJComboBoxsTabela2("Bloco.tab");
 
             idJTF = new JTextField();
-            //UnidadeFile unidadeFile = new UnidadeFile();
-			idJTF.setText("" + 1);
+            file = new UnidadeFile();
+			idJTF.setText("" + file.getProximoCodigo());
+            idJTF.setFocusable(false);
 
             lblArea = new JLabel("Area (M²)");
             areaJTF = new JTextField();
@@ -142,6 +145,7 @@ public class UnidadeVisao extends JFrame
 
             idJTF = new JTextField();
 			idJTF.setText( "" + modelo.getId());
+            idJTF.setFocusable(false);
 
             lblArea = new JLabel("Area (M²)");
             areaJTF = new JTextField();
@@ -319,8 +323,11 @@ public class UnidadeVisao extends JFrame
 		{			
 			UnidadeModelo modelo = new UnidadeModelo(getId(), getAndares(), getNumQuartos(),getAndares(), getArea(),
             getNumeroUni(), getTipoUnidade(), getBloco(),getGaragemCapaci(), getStatusUnidade());
-			JOptionPane.showMessageDialog(null, modelo.toString() );
-			//dispose();
+
+            JOptionPane.showMessageDialog(null, modelo.toString());
+
+			modelo.salvar();
+			dispose();
 		}
     
     public void alterar()

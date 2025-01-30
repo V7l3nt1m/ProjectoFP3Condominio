@@ -3,7 +3,7 @@ Tema: Gestão de Condomínio
 Nome: Valentim Loth Simão Prado
 Numero: 33031
 Ficheiro: UnidadeFile.java
-Data: 20/01/2025
+Data: 30/01/2025
 --------------------------------------*/
 
 import javax.swing.*;
@@ -17,7 +17,28 @@ public class UnidadeFile extends ObjectsFile
 	
 	public UnidadeFile()
 	{
-		super("UnidadeFile.dat", new UnidadeModelo() );
+		super("Unidades.DAT", new UnidadeModelo() );
 	}
 	
+	public void salvarDados(UnidadeModelo modelo)
+	{
+		try
+		{
+			//colocar o File Pointer no final do ficheiro
+			stream.seek( stream.length() );
+			
+			//escrever os dados no ficheiro
+			modelo.write(stream);
+
+			incrementarProximoCodigo();
+
+			JOptionPane.showMessageDialog(null, "Dados Salvos com Sucesso!");
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Material");
+		}
+	}
+
 }

@@ -8,8 +8,6 @@ Objetivo :
 package SwingComponents;
 
 
-
-
 import java.io.*;
 import javax.swing.*;
 import java.util.*;
