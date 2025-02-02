@@ -64,6 +64,7 @@ public class UnidadeModelo implements RegistGeneric
             this.statusUnidade = false;
         else
             this.statusUnidade = true;
+        statusRegisto = true;
     }
 
     public int getId()
@@ -267,5 +268,11 @@ public class UnidadeModelo implements RegistGeneric
         UnidadePNode node = new UnidadePNode(this);
 		node.save();
         new UnidadeFile().salvarDados(this);
+    }
+
+    public void eliminar()
+    {
+        UnidadePNode node = new UnidadePNode(this);
+		node.eliminar();
     }
 }

@@ -89,7 +89,7 @@ public class InformacoesUnidadesVisao extends JFrame
                 dispose();
                 new UnidadeVisao(true, modelo);
             }
-            /*else
+            else
             {
                 int resposta = JOptionPane.showConfirmDialog(null,"Deseja Eliminar os dados","Eliminar dados", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
                 System.out.println(resposta);
@@ -102,13 +102,11 @@ public class InformacoesUnidadesVisao extends JFrame
                     int selectedRow = tabelaUnidades.getSelectedRow();
                     String id = ""+tabelaUnidades.getValueAt(selectedRow,0);
                     UnidadeModelo modelo;
-                    modelo = UnidadeFile.pesquisarVendaPorId(""+id);
-                    modelo.setStatus(false);
-                    //modelo.eliminar();
+                    modelo = UnidadeDadosTable.pesquisarUnidadePorId(id);
+                    modelo.eliminar();
                     dispose();
                 }
             }
-            */
             
         }
 

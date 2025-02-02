@@ -132,7 +132,27 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 	}
 
 	
+	public void eliminarUnidade(UnidadePNode node)
+	{
+		UnidadeDadosTable hashCadaver = new UnidadeDadosTable("UNIDADES.DAT",100);
+		
+		try
+		{
+			hashCadaver.openFile();
+			node.getModel().setStatusRegisto(false);
 
+			int posTabela = calcularHashCode( node.getKey() );
+
+			hashCadaver.stream.seek(getFilePosition(posTabela));
+			node.write(hashCadaver.stream);
+			JOptionPane.showMessageDialog(null, "Unidade eliminada com sucesso!");  // Mensagem de sucesso			
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao eliminar a unidade.");
+		}		
+	}
 
 	//adiciona na tabela e depois no ficheiro
 	public void adicionarNovaUnidade(UnidadePNode node)
@@ -265,7 +285,7 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 			{
 				tmp.read(hashCadaver.stream);
 
-				if(!tmp.getKey().equals(""))
+				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true)
 				{						
 					index++;
 				}	
@@ -280,7 +300,7 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 			{
 				tmp.read(hashCadaver.stream);
 				
-				if(!tmp.getKey().equals(""))
+				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true)
 				{
 					dados[contador][0] = "" + tmp.getModel().getId();                     // Acessando o getter do 'model' para 'getId()'
 					dados[contador][1] = tmp.getModel().getTipoUnidade();                    // Acessando o getter do 'model' para 'getTipoUnidade()'
@@ -320,7 +340,7 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 			{
 				tmp.read(hashCadaver.stream);
 
-				if(!tmp.getKey().equals(""))
+				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true)
 				{						
 					if((""+tmp.getModel().getId()).equals(id))
 						return tmp.getModel();
@@ -350,7 +370,7 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 			for (int i = 0; i < hashCadaver.tableSize; ++i)
 			{
 				tmp.read(hashCadaver.stream);
-				if(!tmp.getKey().equals(""))
+				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true)
 				{	
 					if (tmp.getModel().getNumeroUni().startsWith(pesquisa) || tmp.getModel().getBloco().equalsIgnoreCase( pesquisa ) )
 					{

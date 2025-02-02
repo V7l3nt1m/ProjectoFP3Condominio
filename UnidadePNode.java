@@ -75,7 +75,12 @@ public class UnidadePNode extends UnidadeDadosTable implements SaveWriteReadInte
 	
     public void save()
     {
-		adicionarNovaUnidade(this);
+		    adicionarNovaUnidade(this);
+    }
+
+    public void eliminar()
+    {
+        eliminarUnidade(this);
     }
    
     public static long sizeof()
