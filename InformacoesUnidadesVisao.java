@@ -61,13 +61,11 @@ public class InformacoesUnidadesVisao extends JFrame
         private JPopupMenu popMenu;
         private JMenuItem editar, eliminar;
         private Vector<String> dados = new Vector();
-        private UnidadeFile file;
 
         public PainelCentro()
         {
-            file = new UnidadeFile();
             setLayout(new GridLayout(1,1));
-            tabelaUnidades = new JTable(file.listarUnidades(), colunas);
+            tabelaUnidades = new JTable(UnidadeDadosTable.listarUnidades(), colunas);
             sp = new JScrollPane(tabelaUnidades);
             add(sp);
 
@@ -84,11 +82,10 @@ public class InformacoesUnidadesVisao extends JFrame
         {
             if(e.getSource() == editar)
             {
-                file = new UnidadeFile();
                 int selectedRow = tabelaUnidades.getSelectedRow();
                 String id = ""+tabelaUnidades.getValueAt(selectedRow,0);
                 UnidadeModelo modelo;
-                modelo = file.pesquisarVendaPorId(id);
+                modelo = UnidadeDadosTable.pesquisarUnidadePorId(id);
                 dispose();
                 new UnidadeVisao(true, modelo);
             }
@@ -180,8 +177,7 @@ public class InformacoesUnidadesVisao extends JFrame
         {
             if(evt.getSource() == pesquisarBtn)
             {
-                UnidadeFile file = new UnidadeFile();
-                file.pesquisarUnidadePorBlocoNumero(getPesquisa());
+                UnidadeDadosTable.pesquisarUnidadePorBlocoNumero(getPesquisa());
             }
         }
     }

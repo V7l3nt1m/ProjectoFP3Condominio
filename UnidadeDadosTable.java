@@ -246,87 +246,126 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 		return 1;
 	}
 	//
-    /*
-	public static void pesquisarCadaversPorGenero(String generoProcurado)
-	{
-		CadaverDadosTable hashCadaver = new CadaverDadosTable("CADAVERES.DAT",100);
-		CadaverPNode tmp = (CadaverPNode)hashCadaver.getEmptyNode();
-		String output = "\n";
-		
-		try
-		{
-				hashCadaver.openFile();
-				
-				hashCadaver.stream.seek(8);
-				
-				for(int i = 0; i < hashCadaver.tableSize;++i)
-				{
-					tmp.read(hashCadaver.stream);
-					
-					if(!tmp.getKey().equals(""))
-					{						
-						if (tmp.getModel().getGenero().equals(generoProcurado))
-						{
-							output += tmp.toString();
-							
-							output += "------------------------------\n";
-						}
-					}						
-				}
-				
-				JTextArea area = new JTextArea(40, 50);
-				area.setText(output);
-				area.setEditable(false);
-				
-				JOptionPane.showMessageDialog(null, new JScrollPane(area), "Listagem de Cadaveres", JOptionPane.INFORMATION_MESSAGE);
-				
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			System.out.println("excpcao no metodo Listar Alunos");
-		}
-		
-	}
-	*/
-	/*Listar os dados dos alunos numa comboBox*/
-	public static void listarUnidades()
+
+	public static String[][] listarUnidades()
 	{
 		UnidadeDadosTable hashCadaver = new UnidadeDadosTable("UNIDADES.DAT",100);
 		UnidadePNode tmp = (UnidadePNode)hashCadaver.getEmptyNode();
-		String output = "\n";
+		
+		String [][] dados=null;
+		int index = 0;
+		int contador =0;
 		
 		try
 		{
-				hashCadaver.openFile();
+			hashCadaver.openFile();
+			hashCadaver.stream.seek(8);
+
+			for (int c = 0; c < hashCadaver.tableSize; ++c)
+			{
+				tmp.read(hashCadaver.stream);
+
+				if(!tmp.getKey().equals(""))
+				{						
+					index++;
+				}	
+			}
+
+			dados = new String[index][11];
+
+			hashCadaver.openFile();
+			hashCadaver.stream.seek(8);
+
+			for (int c = 0; c < hashCadaver.tableSize; ++c)
+			{
+				tmp.read(hashCadaver.stream);
 				
-				hashCadaver.stream.seek(8);
-				
-				for(int i = 0; i < hashCadaver.tableSize;++i)
+				if(!tmp.getKey().equals(""))
 				{
-					tmp.read(hashCadaver.stream);
-					
-					if(!tmp.getKey().equals(""))
-					{						
-					   	output += tmp.toString();
-						
-						output += "------------------------------\n";
-					}						
+					dados[contador][0] = "" + tmp.getModel().getId();                     // Acessando o getter do 'model' para 'getId()'
+					dados[contador][1] = tmp.getModel().getTipoUnidade();                    // Acessando o getter do 'model' para 'getTipoUnidade()'
+					dados[contador][2] = "" + tmp.getModel().getNumeroUni();                 // Acessando o getter do 'model' para 'getNumeroUni()'
+					dados[contador][3] = tmp.getModel().getBloco();                          // Acessando o getter do 'model' para 'getBloco()'
+					dados[contador][4] = "" + tmp.getModel().getAndares();                   // Acessando o getter do 'model' para 'getAndares()'
+					dados[contador][5] = "" + tmp.getModel().getArea();                      // Acessando o getter do 'model' para 'getArea()'
+					dados[contador][6] = "" + tmp.getModel().getAndaresDisponiveis();        // Acessando o getter do 'model' para 'getAndaresDisponiveis()'
+					dados[contador][7] = "" + tmp.getModel().getNumQuartos();                // Acessando o getter do 'model' para 'getNumQuartos()'
+					dados[contador][8] = "" + tmp.getModel().getGaragemCapaci();             // Acessando o getter do 'model' para 'getGaragemCapaci()'
+					dados[contador][9] = "" + tmp.getModel().getStatusUnidade();             // Acessando o getter do 'model' para 'getStatusUnidade()'
+					dados[contador][10] = tmp.getModel().getDataCadastro();                  // Acessando o getter do 'model' para 'getDataCadastro()'
+
+					contador++;
 				}
-				
-				JTextArea area = new JTextArea(40, 50);
-				area.setText(output);
-				area.setEditable(false);
-				
-				JOptionPane.showMessageDialog(null, new JScrollPane(area), "Listagem de Unidades", JOptionPane.INFORMATION_MESSAGE);
-				
+			}
 		}
-		catch(Exception e)
+		catch(Exception ex)
 		{
-			e.printStackTrace();
-			System.out.println("excpcao no metodo Listar Unidades");
-		}
+			ex.printStackTrace();
+		}	
+
+		return dados;
+	}
+
+	public static UnidadeModelo pesquisarUnidadePorId(String id)
+	{
+		UnidadeDadosTable hashCadaver = new UnidadeDadosTable("UNIDADES.DAT",100);
+		UnidadePNode tmp = (UnidadePNode)hashCadaver.getEmptyNode();
 		
+		try
+		{
+			hashCadaver.openFile();
+			hashCadaver.stream.seek(8);
+			
+			for (int i = 0; i < hashCadaver.tableSize; ++i)
+			{
+				tmp.read(hashCadaver.stream);
+
+				if(!tmp.getKey().equals(""))
+				{						
+					if((""+tmp.getModel().getId()).equals(id))
+						return tmp.getModel();
+				}	
+				
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+
+		return tmp.getModel();
+	}
+
+	public static void pesquisarUnidadePorBlocoNumero(String pesquisa)
+	{
+		UnidadeDadosTable hashCadaver = new UnidadeDadosTable("UNIDADES.DAT",100);
+		UnidadePNode tmp = (UnidadePNode)hashCadaver.getEmptyNode();
+		
+		String output = "";
+		try
+		{
+			hashCadaver.openFile();
+			hashCadaver.stream.seek(8);
+			
+			for (int i = 0; i < hashCadaver.tableSize; ++i)
+			{
+				tmp.read(hashCadaver.stream);
+				if(!tmp.getKey().equals(""))
+				{	
+					if (tmp.getModel().getNumeroUni().startsWith(pesquisa) || tmp.getModel().getBloco().equalsIgnoreCase( pesquisa ) )
+					{
+						output += tmp.toString();
+						output += "---------------------------------------";
+						JOptionPane.showMessageDialog(null, tmp.toString(), 
+						"Gestao de Condominio", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
 	}
 
 
@@ -335,5 +374,7 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 	{
 		//implementar o reHash
 	}
+
+	
 
 }

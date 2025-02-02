@@ -134,7 +134,7 @@ public class UnidadeVisao extends JFrame
 
         public PainelCentro(UnidadeModelo modelo)
         {
-            setLayout(new GridLayout(8,2));
+            setLayout(new GridLayout(9,2));
             lblTipoUnidade = new JLabel("Tipo de Unidade");
             tipoUnidadeJCB = UInterfaceBox.createJComboBoxsTabela2("TipoUnidade.tab");
             tipoUnidadeJCB.setSelectedItem(modelo.getTipoUnidade());

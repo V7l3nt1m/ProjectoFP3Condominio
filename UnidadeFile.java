@@ -90,28 +90,6 @@ public class UnidadeFile extends ObjectsFile
 
 		return dados;
 	}
-
-	public UnidadeModelo pesquisarVendaPorId(String id)
-	{
-		UnidadeModelo modelo = new UnidadeModelo();
-		try
-		{
-			stream.seek(4);
-			
-			for (int i = 0; i < getNregistos(); ++i)
-			{
-				modelo.read( stream );
-				if((""+modelo.getId()).equals(id))
-					return modelo;
-			}					
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}		
-
-		return modelo;
-	}
 	
 	public void salvarDados(UnidadeModelo modelo)
 	{

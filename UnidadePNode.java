@@ -23,12 +23,12 @@ public class UnidadePNode extends UnidadeDadosTable implements SaveWriteReadInte
     } 
     public UnidadePNode()
     { 
-		model = new UnidadeModelo();	
+		    model = new UnidadeModelo();	
     }
     
     public String getKey()
     {
-		return model.getNumeroUni();
+		    return model.getNumeroUni();
     }
     
     public boolean isEmptyNode()
@@ -40,14 +40,14 @@ public class UnidadePNode extends UnidadeDadosTable implements SaveWriteReadInte
     {
 		//stream.writeInt(codigoAluno);
 		//stream.writeBoolean(eliminado);		
-		model.write(stream);
+		    model.write(stream);
     }
     
     public void read(RandomAccessFile stream) throws IOException
     {
 		//codigoAluno = stream.readInt();	
 		//eliminado = stream.readBoolean();		
-		model.read(stream);
+		    model.read(stream);
     }	
 
     public UnidadeModelo getModel()
@@ -93,6 +93,10 @@ public class UnidadePNode extends UnidadeDadosTable implements SaveWriteReadInte
      }	
      public String toString()
      {
-		return model.toString();
+		    return model.toString();
      }
+
+
+
+
   }

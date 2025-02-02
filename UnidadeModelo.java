@@ -21,7 +21,7 @@ public class UnidadeModelo implements RegistGeneric
     StringBufferModelo numeroUnidade, tipoUnidade,bloco;
     Double area; 
     StringBufferModelo dataDeCadastro; 
-    boolean statusUnidade;
+    boolean statusUnidade, statusRegisto;
     LocalDate dataAtual = LocalDate.now();
 
 
@@ -34,6 +34,7 @@ public class UnidadeModelo implements RegistGeneric
         andaresDisponivel = 0;
         area = 0.0;
         statusUnidade = true;
+        statusRegisto = true;
 
 
 		numeroUnidade = new StringBufferModelo("", 20); 
@@ -170,6 +171,16 @@ public class UnidadeModelo implements RegistGeneric
         return dataDeCadastro.toStringEliminatingSpaces();
     }
 
+    public boolean getStatusRegisto()
+    {
+        return statusRegisto;
+    }
+
+    public void setStatusRegisto(boolean newStatus)
+    {
+        statusRegisto = newStatus;
+    }
+
     
     public String toString()
     {
@@ -186,6 +197,7 @@ public class UnidadeModelo implements RegistGeneric
         str += "Capacidade da Garagem: " + getGaragemCapaci() + "\n";
         str += "Estado da Unidade: " + getStatusUnidade() + "\n"; 
         str += "Data de Cadastro: " + getDataCadastro() + "\n";
+        str += "Status do Registo: " + getStatusRegisto() + "\n";
         return str;
     }
 
@@ -194,7 +206,7 @@ public class UnidadeModelo implements RegistGeneric
         
         try
         {
-            return 65*2 + 4*5 + 8 + 1;// 212 bytes
+            return 65*2 + 4*5 + 8 + 1*2;// 212 bytes
         }
         catch(Exception ex)
         {
@@ -217,6 +229,7 @@ public class UnidadeModelo implements RegistGeneric
             stream.writeInt(garagemCapacidade);
             dataDeCadastro.write(stream);
             stream.writeBoolean(statusUnidade);
+            stream.writeBoolean(statusRegisto);
         }
         catch (IOException ex)
 		{
@@ -239,7 +252,8 @@ public class UnidadeModelo implements RegistGeneric
             numQuartos = stream.readInt();
             garagemCapacidade = stream.readInt();
             dataDeCadastro.read(stream);
-            statusUnidade = stream.readBoolean();	
+            statusUnidade = stream.readBoolean();
+            statusRegisto = stream.readBoolean();	
 		}
 		catch (IOException ex)
 		{
@@ -254,5 +268,4 @@ public class UnidadeModelo implements RegistGeneric
 		node.save();
         new UnidadeFile().salvarDados(this);
     }
-    
 }
