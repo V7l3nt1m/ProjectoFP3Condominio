@@ -330,12 +330,13 @@ public class UnidadeVisao extends JFrame
 			dispose();
 		}
     
-    public void alterar()
-		{			
+        public void alterar()
+		{
 			UnidadeModelo modelo = new UnidadeModelo(getId(), getAndares(), getNumQuartos(),getAndaresDisponiveis(), getArea(),
             getNumeroUni(), getTipoUnidade(), getBloco(),getGaragemCapaci(), getStatusUnidade());
-			JOptionPane.showMessageDialog(null, modelo.toString() );		
-			//dispose();
+			JOptionPane.showMessageDialog(null, modelo.toString() );
+            modelo.editar();		
+			dispose();
 		}
 
     }

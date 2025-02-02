@@ -275,4 +275,10 @@ public class UnidadeModelo implements RegistGeneric
         UnidadePNode node = new UnidadePNode(this);
 		node.eliminar();
     }
+
+    public void editar()
+    {
+        UnidadePNode node = new UnidadePNode(this);
+		node.editar();
+    }
 }

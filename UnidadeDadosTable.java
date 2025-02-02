@@ -131,6 +131,22 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 		return listaNodes;
 	}
 
+	public void editarUnidade(UnidadePNode node)
+	{		
+		try
+		{
+			int posTabela = calcularHashCode( node.getKey() );
+			sobrePorRegisto(node, posTabela);
+			JOptionPane.showMessageDialog(null, "Unidade Editada com Sucesso.");
+
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao editar Unidade.");
+		}		
+	}
+
 	
 	public void eliminarUnidade(UnidadePNode node)
 	{
