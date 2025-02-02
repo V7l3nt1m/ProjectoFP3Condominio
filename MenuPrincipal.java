@@ -284,7 +284,7 @@ public class MenuPrincipal extends JFrame
                     new UnidadeVisao(false,modelo);
                 }
                 else if(evt.getSource() == itemVerUnidades)
-                    JOptionPane.showMessageDialog(null,"Item Ver Registro de Unidade");
+                    new InformacoesUnidadesVisao();
                 else if(evt.getSource() == itemCadastrarMorador)
                 {
                     UnidadeModelo modelo = new UnidadeModelo();

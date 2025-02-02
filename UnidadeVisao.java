@@ -134,7 +134,7 @@ public class UnidadeVisao extends JFrame
 
         public PainelCentro(UnidadeModelo modelo)
         {
-            setLayout(new GridLayout(7,2));
+            setLayout(new GridLayout(8,2));
             lblTipoUnidade = new JLabel("Tipo de Unidade");
             tipoUnidadeJCB = UInterfaceBox.createJComboBoxsTabela2("TipoUnidade.tab");
             tipoUnidadeJCB.setSelectedItem(modelo.getTipoUnidade());
@@ -167,7 +167,7 @@ public class UnidadeVisao extends JFrame
             garagemCapacidadeJTF = new JTextField();
             garagemCapacidadeJTF.setText(""+modelo.getGaragemCapaci());
 
-            lblAndaresDisp = new JLabel();
+            lblAndaresDisp = new JLabel("Andares Disponiveis");
             andaresDisponivelJTF = new JTextField();
             andaresDisponivelJTF.setText(""+modelo.getAndaresDisponiveis());
 
