@@ -13,6 +13,7 @@ import java.awt.*;
 import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
+import java.time.LocalDate;
 
 
 public class MoradorVisao extends JFrame
@@ -22,7 +23,7 @@ public class MoradorVisao extends JFrame
     private PainelCentro painelCentro;
     boolean editar;
 
-    public MoradorVisao(boolean alterar, UnidadeModelo modelo)
+    public MoradorVisao(boolean alterar, MoradorModelo modelo)
     {
         super("Registrar Moradores");
         definirTema();
@@ -51,7 +52,7 @@ public class MoradorVisao extends JFrame
 
         public PainelNorte()
         {          
-            casasIco = new ImageIcon("imagens/casas.jpg");
+            casasIco = new ImageIcon("imagens/moradores.jpg");
             
             lblCasa = new JLabel();
             lblCasa.setIcon(casasIco);
@@ -59,22 +60,57 @@ public class MoradorVisao extends JFrame
         }
     }
 
-    public class PainelCentro extends JPanel
+    public class PainelCentro extends JPanel implements ActionListener
     {
-        private JTextField idJTF;
-        
-        private JLabel lblArea;
+        private JTextField idJTF,nomeJTF,numDocJTF, telefoneJTF,emailJTF,nPortaJTF, numeroUnidadeJTF, moradorResponsavelJTF;
+        private JComboBox isResponsavelJCB, TipoDocumentoJCB;
+        private String opcoes[] = {"sim","nao"};
+        private JLabel idLbl, nomeLbl, numDocLbl, telefoneLbl, emailLbl, nPortaLbl, numeroUnidadeLbl, moradorResponsavelLbl, isResponsavelLbl, tipoDocumentoLbl;
+        private MoradorFile file;
 
         public PainelCentro()
         {
-            setLayout(new GridLayout(8,2));
-
+            setLayout(new GridLayout(9,2));
+            file = new MoradorFile();
+            //idJTF.setText("" + file.getProximoCodigo());
             idJTF = new JTextField();
-            //UnidadeFile unidadeFile = new UnidadeFile();
-			idJTF.setText("" + 1);
+            idJTF.setText("" + file.getProximoCodigo());
+            idJTF.setFocusable(false);
+            add(nomeLbl = new JLabel("Nome"));
+            add(nomeJTF = new JTextField());
+
+            add(tipoDocumentoLbl = new JLabel("Tipo de Documento"));
+            TipoDocumentoJCB = UInterfaceBox.createJComboBoxsTabela2("TipoDocumento.tab");
+            add(TipoDocumentoJCB);
+
+            add(numDocLbl = new JLabel("Numero do Documento"));
+            add(numDocJTF = new JTextField());
+
+            add(telefoneLbl = new JLabel("Telefone"));
+            add(telefoneJTF = new JTextField());
+
+            add(emailLbl = new JLabel("Email"));
+            add(emailJTF = new JTextField());
+
+            add(isResponsavelLbl = new JLabel("Morador Responsavel?"));
+            add(isResponsavelJCB = new JComboBox(opcoes));
+
+            add(moradorResponsavelLbl = new JLabel("Numero do Documento do Responsavel"));
+            add(moradorResponsavelJTF = new JTextField());
+
+            add(numeroUnidadeLbl = new JLabel("Numero da Unidade"));
+            add(numeroUnidadeJTF = new JTextField());
+
+            add(nPortaLbl = new JLabel("Numero da Porta"));
+            add(nPortaJTF = new JTextField());
+
+            isResponsavelJCB.addActionListener(this);
+            nPortaJTF.addActionListener(this);
+            numeroUnidadeJTF.addActionListener(this);
+            moradorResponsavelJTF.addActionListener(this);
         }
 
-        public PainelCentro(UnidadeModelo modelo)
+        public PainelCentro(MoradorModelo modelo)
         {
             setLayout(new GridLayout(7,2));
             
@@ -94,11 +130,119 @@ public class MoradorVisao extends JFrame
         idJTF.setText(""+id);
     }
 
+    public String getNome()
+    {
+        return nomeJTF.getText().trim();
+    }
+
+    public void setNome(String nome)
+    {
+        nomeJTF.setText(nome);
+    }
+
+    public String getNumDoc()
+    {
+        return numDocJTF.getText().trim();
+    }
+
+    public void setNumDoc(String numDoc)
+    {
+        numDocJTF.setText(numDoc);
+    }
+
+    public String getTelefone()
+    {
+        return telefoneJTF.getText().trim();
+    }
+
+    public void setTelefone(String telefone)
+    {
+        telefoneJTF.setText(telefone);
+    }
+
+    public String getEmail()
+    {
+        return emailJTF.getText().trim();
+    }
+
+    public void setEmail(String email)
+    {
+        emailJTF.setText(email);
+    }
+
+    public String getNPorta()
+    {
+        return nPortaJTF.getText().trim();
+    }
+
+    public void setNPorta(String nPorta)
+    {
+        nPortaJTF.setText(nPorta);
+    }
+
+    public String getNumeroUnidade()
+    {
+        return numeroUnidadeJTF.getText().trim();
+    }
+
+    public void setNumeroUnidade(String numeroUnidade)
+    {
+        numeroUnidadeJTF.setText(numeroUnidade);
+    }
+
+    public String getMoradorResponsavel()
+    {
+        return moradorResponsavelJTF.getText().trim();
+    }
+
+    public void setMoradorResponsavel(String moradorResponsavel)
+    {
+        moradorResponsavelJTF.setText(moradorResponsavel);
+    }
+
+    public boolean getIsResponsavel()
+    {
+        if(isResponsavelJCB.getSelectedItem().equals("sim"))
+            return true;
+        return false;
+    }
+
+    public void setIsResponsavel(boolean isResponsavel)
+    {
+        isResponsavelJCB.setSelectedItem(isResponsavel ? "sim" : "nao");   
+    }
+
+    public String getTipoDocumento()
+    {
+        return String.valueOf(TipoDocumentoJCB.getSelectedItem());
+    }
+
+    public void setTipoDocumento(String tipoDocumento)
+    {
+        TipoDocumentoJCB.setSelectedItem(tipoDocumento);
+    }
+
  
 
     public boolean isEmpty(Object valor)
     {
         return String.valueOf(valor).equals("") || valor == null || String.valueOf(valor).equals("0") || String.valueOf(valor).equals("0.0");
+    }
+
+    public void actionPerformed(ActionEvent evt)
+    {
+        if(evt.getSource() == isResponsavelJCB && getIsResponsavel() == true)
+            {
+                moradorResponsavelJTF.setEnabled(false);
+                numeroUnidadeJTF.setEnabled(true);
+                nPortaJTF.setEnabled(true);
+            }
+            else
+            {
+                numeroUnidadeJTF.setEnabled(false);
+                nPortaJTF.setEnabled(false);
+                moradorResponsavelJTF.setEnabled(true);
+            }
     }
 
 
@@ -176,7 +320,7 @@ public class MoradorVisao extends JFrame
     public static void main(String args[])
     {
         Vector_Tabelas.inic();
-        UnidadeModelo modelo = new UnidadeModelo();
+        MoradorModelo modelo = new MoradorModelo();
         new MoradorVisao(false,modelo); 
     }
 }

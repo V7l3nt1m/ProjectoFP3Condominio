@@ -287,7 +287,7 @@ public class MenuPrincipal extends JFrame
                     new InformacoesUnidadesVisao();
                 else if(evt.getSource() == itemCadastrarMorador)
                 {
-                    UnidadeModelo modelo = new UnidadeModelo();
+                    MoradorModelo modelo = new MoradorModelo();
                     new MoradorVisao(false,modelo);
                 }
                 else if(evt.getSource() == itemVerMoradores)

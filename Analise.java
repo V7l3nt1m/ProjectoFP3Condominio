@@ -43,6 +43,7 @@ e manutenção de um condomínio.
     boolean statusUnidade
     int andaresDisponivel
     String dataDeCadastro
+    boolean status
 
 - MoradorModelo
     int id
