@@ -291,7 +291,7 @@ public class MenuPrincipal extends JFrame
                     new MoradorVisao(false,modelo);
                 }
                 else if(evt.getSource() == itemVerMoradores)
-                    JOptionPane.showMessageDialog(null,"Item Ver Registro de Moradores");
+                    new InformacoesMoradoresVisao();
                 else if(evt.getSource() == itemCadastrarDespesas)
                     JOptionPane.showMessageDialog(null,"Item Cadastrar Despesas");
                 else if(evt.getSource() == itemVerDespesas)

@@ -161,12 +161,12 @@ public class MoradorDadosTable extends AbstractHashTableCoalashed
 
 			hashCadaver.stream.seek(getFilePosition(posTabela));
 			node.write(hashCadaver.stream);
-			JOptionPane.showMessageDialog(null, "Unidade eliminada com sucesso!");  // Mensagem de sucesso			
+			JOptionPane.showMessageDialog(null, "Morador eliminado com sucesso!");  // Mensagem de sucesso			
 		}
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Erro ao eliminar a unidade.");
+			JOptionPane.showMessageDialog(null, "Erro ao eliminar a morador.");
 		}		
 	}
 
@@ -282,11 +282,10 @@ public class MoradorDadosTable extends AbstractHashTableCoalashed
 		return 1;
 	}
 	//
-    /*
-	public static String[][] listarUnidades()
+	public static String[][] listarMoradores()
 	{
-		UnidadeDadosTable hashCadaver = new UnidadeDadosTable("UNIDADES.DAT",100);
-		UnidadePNode tmp = (UnidadePNode)hashCadaver.getEmptyNode();
+		MoradorDadosTable hashCadaver = new MoradorDadosTable("MORADORES.DAT",100);
+		MoradorPNode tmp = (MoradorPNode)hashCadaver.getEmptyNode();
 		
 		String [][] dados=null;
 		int index = 0;
@@ -319,16 +318,20 @@ public class MoradorDadosTable extends AbstractHashTableCoalashed
 				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true)
 				{
 					dados[contador][0] = "" + tmp.getModel().getId();                     // Acessando o getter do 'model' para 'getId()'
-					dados[contador][1] = tmp.getModel().getTipoUnidade();                    // Acessando o getter do 'model' para 'getTipoUnidade()'
-					dados[contador][2] = "" + tmp.getModel().getNumeroUni();                 // Acessando o getter do 'model' para 'getNumeroUni()'
-					dados[contador][3] = tmp.getModel().getBloco();                          // Acessando o getter do 'model' para 'getBloco()'
-					dados[contador][4] = "" + tmp.getModel().getAndares();                   // Acessando o getter do 'model' para 'getAndares()'
-					dados[contador][5] = "" + tmp.getModel().getArea();                      // Acessando o getter do 'model' para 'getArea()'
-					dados[contador][6] = "" + tmp.getModel().getAndaresDisponiveis();        // Acessando o getter do 'model' para 'getAndaresDisponiveis()'
-					dados[contador][7] = "" + tmp.getModel().getNumQuartos();                // Acessando o getter do 'model' para 'getNumQuartos()'
-					dados[contador][8] = "" + tmp.getModel().getGaragemCapaci();             // Acessando o getter do 'model' para 'getGaragemCapaci()'
-					dados[contador][9] = "" + tmp.getModel().getStatusUnidade();             // Acessando o getter do 'model' para 'getStatusUnidade()'
-					dados[contador][10] = tmp.getModel().getDataCadastro();                  // Acessando o getter do 'model' para 'getDataCadastro()'
+					dados[contador][1] = tmp.getModel().getNome();                        // Acessando o getter do 'model' para 'getNome()'
+					dados[contador][2] = "" + tmp.getModel().getTipoDocumento();          // Acessando o getter do 'model' para 'getTipoDocumento()'
+					dados[contador][3] = tmp.getModel().getNumDoc();                      // Acessando o getter do 'model' para 'getNumDoc()'
+					dados[contador][4] = "" + tmp.getModel().getTelefone();               // Acessando o getter do 'model' para 'getTelefone()'
+					dados[contador][5] = "" + tmp.getModel().getEmail();    
+					dados[contador][6] = "" + tmp.getModel().getUnidade();                // Acessando o getter do 'model' para 'getUnidade()'
+					dados[contador][7] = "" + tmp.getModel().getNPorta();                 // Acessando o getter do 'model' para 'getNPorta()'
+					dados[contador][8] = "" + (tmp.getModel().isResponsavel() ? "Sim" : "Não"); // Acessando o getter do 'model' para 'isResponsavel()'
+					if(tmp.getModel().getMoradorResponsavelId() == -1)
+						dados[contador][9] = "" + tmp.getModel().getMoradorResponsavelId();  // Acessando o getter do 'model' para 'getMoradorResponsavelId()'
+					else
+						dados[contador][9] = "" + pesquisarMoradorPorId(""+tmp.getModel().getMoradorResponsavelId()).getNumDoc();  // Acessando o getter do 'model' para 'getMoradorResponsavelId()'
+									// Acessando o getter do 'model' para 'getDataCadastro()'
+					dados[contador][10] = "" + tmp.getModel().getDataCadastro();           // Acessando o getter do 'model' para 'getDataCadastro()'
 
 					contador++;
 				}
@@ -341,9 +344,65 @@ public class MoradorDadosTable extends AbstractHashTableCoalashed
 
 		return dados;
 	}
-    */
 
-	public static MoradorModelo pesquisarUnidadePorId(String id)
+   public static MoradorModelo pesquisarMoradorIdPorNumDoc(String numDocumento)
+   {
+		MoradorDadosTable hashCadaver = new MoradorDadosTable("MORADORES.DAT",100);
+		MoradorPNode tmp = (MoradorPNode)hashCadaver.getEmptyNode();
+		
+		try
+		{
+			hashCadaver.openFile();
+			hashCadaver.stream.seek(8);
+			
+			for (int i = 0; i < hashCadaver.tableSize; ++i)
+			{
+				tmp.read(hashCadaver.stream);
+
+				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true && tmp.getModel().getNumDoc().equalsIgnoreCase(numDocumento))
+				{						
+					return tmp.getModel();
+				}	
+				
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+
+		return tmp.getModel();
+   }
+
+   public static void showMoradores()
+	{
+		MoradorDadosTable hashCadaver = new MoradorDadosTable("MORADORES.DAT",100);
+		MoradorPNode tmp = (MoradorPNode)hashCadaver.getEmptyNode();
+		try
+		{
+			hashCadaver.openFile();
+			hashCadaver.stream.seek(8);
+			
+			for (int i = 0; i < hashCadaver.tableSize; ++i)
+			{
+				tmp.read(hashCadaver.stream);
+
+				if(!tmp.getKey().equals(""))
+				{						
+					System.out.println(tmp.getModel().toString());
+				}	
+				
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+
+	}
+
+
+	public static MoradorModelo pesquisarMoradorPorId(String id)
 	{
 		MoradorDadosTable hashCadaver = new MoradorDadosTable("MORADORES.DAT",100);
 		MoradorPNode tmp = (MoradorPNode)hashCadaver.getEmptyNode();

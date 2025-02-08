@@ -342,6 +342,35 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 		return dados;
 	}
 
+	public static UnidadeModelo pesquisarUnidadePorNumeroUni(String numeroUni)
+	{
+		UnidadeDadosTable hashCadaver = new UnidadeDadosTable("UNIDADES.DAT",100);
+		UnidadePNode tmp = (UnidadePNode)hashCadaver.getEmptyNode();
+		
+		try
+		{
+			hashCadaver.openFile();
+			hashCadaver.stream.seek(8);
+			
+			for (int i = 0; i < hashCadaver.tableSize; ++i)
+			{
+				tmp.read(hashCadaver.stream);
+
+				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true && tmp.getModel().getNumeroUni().equalsIgnoreCase(numeroUni))
+				{						
+					return tmp.getModel();
+				}	
+				
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+
+		return tmp.getModel();
+	}
+
 	public static UnidadeModelo pesquisarUnidadePorId(String id)
 	{
 		UnidadeDadosTable hashCadaver = new UnidadeDadosTable("UNIDADES.DAT",100);

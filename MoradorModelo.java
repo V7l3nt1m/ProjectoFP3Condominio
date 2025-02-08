@@ -74,9 +74,9 @@ public class MoradorModelo implements RegistGeneric
     }
 
     public int getUnidade()
-{
-    return unidade;
-}
+    {
+        return unidade;
+    }
 
 public void setUnidade(int newUnidade)
 {
@@ -180,7 +180,7 @@ public void setResponsavel(boolean newIsResponsavel)
 
     public String toString()
     {
-        String str = "Dados do MOrador Modelo\n\n";
+        String str = "Dados do Morador Modelo\n\n";
 
         str += "Id: " + getId() + "\n";
         str += "Nome: " + getNome() + "\n";
@@ -203,7 +203,7 @@ public void setResponsavel(boolean newIsResponsavel)
         
         try
         {
-            return 100*2 + 4*3 + 8 + 1*2;
+            return 135*2 + 4*3 + 1*2;
         }
         catch(Exception ex)
         {

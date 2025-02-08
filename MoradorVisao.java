@@ -84,7 +84,8 @@ public class MoradorVisao extends JFrame
             add(TipoDocumentoJCB);
 
             add(numDocLbl = new JLabel("Numero do Documento"));
-            add(numDocJTF = new JTextField());
+            numDocJTF = new JTextField();
+            add(numDocJTF);
 
             add(telefoneLbl = new JLabel("Telefone"));
             add(telefoneJTF = new JTextField());
@@ -96,7 +97,10 @@ public class MoradorVisao extends JFrame
             add(isResponsavelJCB = new JComboBox(opcoes));
 
             add(moradorResponsavelLbl = new JLabel("Numero do Documento do Responsavel"));
-            add(moradorResponsavelJTF = new JTextField());
+            moradorResponsavelJTF = new JTextField();
+            moradorResponsavelJTF.setEnabled(false);
+            add(moradorResponsavelJTF);
+
 
             add(numeroUnidadeLbl = new JLabel("Numero da Unidade"));
             add(numeroUnidadeJTF = new JTextField());
@@ -112,11 +116,64 @@ public class MoradorVisao extends JFrame
 
         public PainelCentro(MoradorModelo modelo)
         {
-            setLayout(new GridLayout(7,2));
-            
+            setLayout(new GridLayout(10,2));
+            file = new MoradorFile();
             idJTF = new JTextField();
-			idJTF.setText( "" + modelo.getId());
 
+			idJTF.setText( "" + modelo.getId());
+            idJTF.setFocusable(false);
+            add(nomeLbl = new JLabel("Nome"));
+            nomeJTF = new JTextField();     
+            nomeJTF.setText(modelo.getNome());       
+            add(nomeJTF);
+
+            add(tipoDocumentoLbl = new JLabel("Tipo de Documento"));
+            TipoDocumentoJCB = UInterfaceBox.createJComboBoxsTabela2("TipoDocumento.tab");
+            TipoDocumentoJCB.setSelectedItem(modelo.getTipoDocumento());
+            add(TipoDocumentoJCB);
+
+            add(numDocLbl = new JLabel("Numero do Documento"));
+            numDocJTF = new JTextField();
+            numDocJTF.setText(""+modelo.getNumDoc());
+            add(numDocJTF);
+
+            add(telefoneLbl = new JLabel("Telefone"));
+            telefoneJTF = new JTextField();
+            telefoneJTF.setText(modelo.getTelefone());
+            add(telefoneJTF);
+
+            add(emailLbl = new JLabel("Email"));
+            emailJTF = new JTextField();
+            emailJTF.setText(modelo.getEmail());
+            add(emailJTF);
+
+            add(isResponsavelLbl = new JLabel("Morador Responsavel?"));
+            isResponsavelJCB = new JComboBox(opcoes);
+            isResponsavelJCB.setSelectedItem(modelo.isResponsavel() == true ? "sim" : "nao");
+            add(isResponsavelJCB);
+
+
+            add(moradorResponsavelLbl = new JLabel("Numero do Documento do Responsavel"));
+            moradorResponsavelJTF = new JTextField();
+            moradorResponsavelJTF.setText(""+modelo.getMoradorResponsavelId());
+            moradorResponsavelJTF.setEnabled(false);
+            add(moradorResponsavelJTF);
+
+
+            add(numeroUnidadeLbl = new JLabel("Numero da Unidade"));
+            numeroUnidadeJTF = new JTextField();
+            numeroUnidadeJTF.setText(""+modelo.getUnidade());
+            add(numeroUnidadeJTF);
+            
+            add(nPortaLbl = new JLabel("Numero da Porta"));
+            nPortaJTF = new JTextField();
+            nPortaJTF.setText(modelo.getNPorta());
+            add(nPortaJTF);
+
+            isResponsavelJCB.addActionListener(this);
+            nPortaJTF.addActionListener(this);
+            numeroUnidadeJTF.addActionListener(this);
+            moradorResponsavelJTF.addActionListener(this);
         }
 
 
@@ -243,28 +300,101 @@ public class MoradorVisao extends JFrame
                 nPortaJTF.setEnabled(false);
                 moradorResponsavelJTF.setEnabled(true);
             }
+        
+        if(evt.getSource() == moradorResponsavelJTF)
+        {
+            if(getIsResponsavel() == false)
+            {
+                MoradorModelo modeloResponsavel = MoradorDadosTable.pesquisarMoradorIdPorNumDoc(getMoradorResponsavel());
+                if(modeloResponsavel != null)
+                {
+                    setNumeroUnidade(""+modeloResponsavel.getUnidade());
+                    setNPorta(""+modeloResponsavel.getNPorta());
+                }
+                else
+                {
+                    setNumeroUnidade("");
+                    setNPorta("");
+                }
+            }
+        }
     }
 
 
      public boolean verificarCampos()
         {
-            if(isEmpty(getId()))
+            if(isEmpty(getId()) || isEmpty(getTipoDocumento()) || isEmpty(getNumDoc()) ||  isEmpty(getTelefone()) || isEmpty(getEmail()) || isEmpty(getIsResponsavel()) || isEmpty(getNPorta()) || isEmpty(getNumeroUnidade()))
                     return false;
                 return true; 
         }
 
         public void salvar()
-		{			
-			JOptionPane.showMessageDialog(null,"Salvar");
-			//dispose();
+		{
+            if(getIsResponsavel() == true)
+            {
+                UnidadeModelo modeloUni = UnidadeDadosTable.pesquisarUnidadePorNumeroUni(getNumeroUnidade());
+                if(modeloUni != null)
+                {
+                    MoradorModelo modelo = new MoradorModelo(getId(), modeloUni.getId(), -1, getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
+                    JOptionPane.showMessageDialog(null, modelo.toString());
+                    modelo.salvar();
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Numero da Unidade Invalido", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
+                }
+            }			
+            else
+            {
+                MoradorModelo modeloResponsavel = MoradorDadosTable.pesquisarMoradorIdPorNumDoc(getMoradorResponsavel());
+                if(modeloResponsavel != null)
+                {
+                    MoradorModelo modelo = new MoradorModelo(getId(), Integer.parseInt(getNumeroUnidade()), modeloResponsavel.getId(), getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
+                    JOptionPane.showMessageDialog(null, modelo.toString());
+                    modelo.salvar();
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Numero do Documento Invalido", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
+                }
+            }
 		}
     
-    public void alterar()
+        public void alterar()
 		{			
-			JOptionPane.showMessageDialog(null,"Salvar");	
-			//dispose();
+			if(getIsResponsavel() == true)
+            {
+                UnidadeModelo modeloUni = UnidadeDadosTable.pesquisarUnidadePorNumeroUni(getNumeroUnidade());
+                if(modeloUni != null)
+                {
+                    MoradorModelo modelo = new MoradorModelo(getId(), modeloUni.getId(), -1, getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
+                    JOptionPane.showMessageDialog(null, modelo.toString());
+                    modelo.editar();
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Numero da Unidade Invalido", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
+                }
+            }			
+            else
+            {
+                MoradorModelo modeloResponsavel = MoradorDadosTable.pesquisarMoradorIdPorNumDoc(getMoradorResponsavel());
+                if(modeloResponsavel != null)
+                {
+                    MoradorModelo modelo = new MoradorModelo(getId(), Integer.parseInt(getNumeroUnidade()), modeloResponsavel.getId(), getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
+                    JOptionPane.showMessageDialog(null, modelo.toString());
+                    modelo.editar();
+                    dispose();
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Numero do Documento Invalido", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
+                }
+            }	
 		}
-
     }
 
     
