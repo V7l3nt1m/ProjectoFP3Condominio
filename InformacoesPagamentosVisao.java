@@ -2,7 +2,7 @@
 Tema: Gestão de Condomínio
 Nome: Valentim Loth Simão Prado
 Numero: 33031
-Ficheiro: InformacoesMoradoresVisao.java
+Ficheiro: InformacoesPagamentosVisao.java
 Data: 07/02/2025
 --------------------------------------*/
 
@@ -14,7 +14,7 @@ import Calendario.*;
 import javax.swing.UIManager.*;
 import java.util.*;
 
-public class InformacoesMoradoresVisao extends JFrame
+public class InformacoesPagamentosVisao extends JFrame
 {
     private PainelCentro painelCentro;
     private PainelCentro2 painelCentro2;
@@ -22,16 +22,16 @@ public class InformacoesMoradoresVisao extends JFrame
     private JTabbedPane tabPanel;
 
 
-    public InformacoesMoradoresVisao()
+    public InformacoesPagamentosVisao()
     {
-        super("Registro de Moradores");
+        super("Registro de Pagamentos");
         definirTema();
         getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
         getContentPane().add(painelCentro2 = new PainelCentro2(), BorderLayout.CENTER);
 
         tabPanel = new JTabbedPane();
-        tabPanel.addTab("Registro de Moradores", painelCentro);
-        tabPanel.addTab("Pesquisa Registro de Moradores", painelCentro2);
+        tabPanel.addTab("Registro de Pagamentos", painelCentro);
+        tabPanel.addTab("Pesquisa Registro de Pagamentos", painelCentro2);
 
 
         getContentPane().add(tabPanel, BorderLayout.NORTH);
@@ -45,15 +45,13 @@ public class InformacoesMoradoresVisao extends JFrame
     {
         private String[] colunas = {
             "ID", 
-            "Nome", 
-            "Tipo de Doc", 
             "Numero do Documento", 
-            "Telefone", 
-            "Email", 
             "Numero da Unidade", 
-            "Numero da Porta", 
-            "Responsavel", 
-            "BI do Responsavel", 
+            "Tipo de Pagamento", 
+            "Valor a Pagar", 
+            "Descricao", 
+            "Status do Pagamento", 
+            "Data de Pagamento", 
             "Data de Cadastro"
         };
         private JScrollPane sp;
@@ -65,7 +63,7 @@ public class InformacoesMoradoresVisao extends JFrame
         public PainelCentro()
         {
             setLayout(new GridLayout(1,1));
-            tabelaUnidades = new JTable(MoradorDadosTable.listarMoradores(), colunas);
+            tabelaUnidades = new JTable(PagamentoDadosTable.listarPagamentos(), colunas);
             sp = new JScrollPane(tabelaUnidades);
             add(sp);
 
@@ -84,10 +82,10 @@ public class InformacoesMoradoresVisao extends JFrame
             {
                 int selectedRow = tabelaUnidades.getSelectedRow();
                 String id = ""+tabelaUnidades.getValueAt(selectedRow,0);
-                MoradorModelo modelo;
-                modelo = MoradorDadosTable.pesquisarMoradorPorId(id);
+                PagamentoModelo modelo;
+                modelo = PagamentoDadosTable.pesquisarPagamentoPorId(id);
                 dispose();
-                new MoradorVisao(true, modelo);
+                new PagamentoVisao(true, modelo);
             }
             else
             {
@@ -101,8 +99,8 @@ public class InformacoesMoradoresVisao extends JFrame
                 {
                     int selectedRow = tabelaUnidades.getSelectedRow();
                     String id = ""+tabelaUnidades.getValueAt(selectedRow,0);
-                    MoradorModelo modelo;
-                    modelo = MoradorDadosTable.pesquisarMoradorPorId(id);
+                    PagamentoModelo modelo;
+                    modelo = PagamentoDadosTable.pesquisarPagamentoPorId(id);
                     modelo.eliminar();
                     dispose();
                 }
@@ -175,9 +173,7 @@ public class InformacoesMoradoresVisao extends JFrame
         {
             if(evt.getSource() == pesquisarBtn)
             {
-                MoradorModelo mol = MoradorDadosTable.pesquisarMoradorIdPorNumDoc(getPesquisa());
-                if(mol != null)
-                    JOptionPane.showMessageDialog(null, MoradorDadosTable.pesquisarMoradorIdPorNumDoc(getPesquisa()).toString());
+                PagamentoDadosTable.pesquisarPagamentos(getPesquisa());
             }
         }
     }

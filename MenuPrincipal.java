@@ -41,22 +41,23 @@ public class MenuPrincipal extends JFrame
 
     private class PainelSuperior extends JPanel
     {
-        private JButton btnUnidade,btnMorador,btnDespesa,btnManutencao,btnTabelas,btnAjuda,btnSair;
+        private JButton btnUnidade,btnMorador, btnPagamento,btnDespesa,btnManutencao,btnTabelas,btnAjuda,btnSair;
 
-        private JLabel logo, nomeUser, lblUni, lblMorador, lblDespesa,lblManutencao, lblTable, lblAjuda, lblSair;
-        private ImageIcon imagemLogo, despesaImg, sairImg, ajudaImg,manutencaoImg, unidadeImg,tableImg, moradorImg;
+        private JLabel logo, nomeUser, lblUni, lblMorador, lblDespesa,lblManutencao, lblTable, lblAjuda, lblSair, lblPagamento;
+        private ImageIcon imagemLogo, despesaImg, sairImg, ajudaImg,manutencaoImg, unidadeImg,tableImg, moradorImg, pagamentoImg;
         private ManipuladorEventos manipulador;
         private Color customColor, customColor2;
         private JPanel operJp;
-        private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6;
+        private JPopupMenu popupMenu1,popupMenu2, popupMenu3, popupMenu4, popupMenu5, popupMenu6, popupMenu7;
         private JMenuItem itemCadastrarUnidade, itemVerUnidades;//unidade
         private JMenuItem itemCadastrarMorador, itemVerMoradores;//moradores
         private JMenuItem itemCadastrarDespesas, itemVerDespesas;//despesas
         private JMenuItem itemCadastrarManutencao, itemVerManutencao;//manutencao
+        private JMenuItem itemCadastrarPagamento, itemVerPagamento;
 
         private JMenuItem itemSobreAutor, itemSobreSoftw; //aba sobre
 
-        private JMenuItem itemTipoUnidade, itemBloco, itemTipoDocumento, itemCategoriaDespesa, itemStatusManutencao;//tabelas
+        private JMenuItem itemTipoUnidade, itemBloco, itemTipoDocumento, itemCategoriaDespesa, itemStatusManutencao, itemTipoPagamento;//tabelas
 
         public PainelSuperior()
         {         
@@ -96,6 +97,7 @@ public class MenuPrincipal extends JFrame
             itemTipoDocumento = new JMenuItem("Tipo de Documento");
             itemCategoriaDespesa = new JMenuItem("Categoria de Despesas");
             itemStatusManutencao = new JMenuItem("Status da Manutencao");
+            itemTipoPagamento = new JMenuItem("Tipo de Pagamento");
 
             popupMenu5.add(itemTipoUnidade);
             popupMenu5.add(new JSeparator());
@@ -106,6 +108,8 @@ public class MenuPrincipal extends JFrame
             popupMenu5.add(itemCategoriaDespesa);
             popupMenu5.add(new JSeparator());
             popupMenu5.add(itemStatusManutencao);
+            popupMenu5.add(new JSeparator());
+            popupMenu5.add(itemTipoPagamento);
 
 //fim das tabelas
 
@@ -132,6 +136,20 @@ public class MenuPrincipal extends JFrame
             moradorImg = new ImageIcon("imagens/morador.png");
             btnMorador = new JButton(moradorImg);
             btnMorador.setBackground(customColor2);
+
+            lblPagamento = new JLabel("Pagamentos");
+            lblPagamento.setHorizontalAlignment(SwingConstants.CENTER);
+            lblPagamento.setVerticalAlignment(SwingConstants.TOP);
+            pagamentoImg = new ImageIcon("imagens/payment.png");
+            btnPagamento = new JButton(pagamentoImg);
+            btnPagamento.setBackground(customColor2);
+
+            popupMenu7 = new JPopupMenu();
+            popupMenu7.add(itemCadastrarPagamento = new JMenuItem("Novo Pagamento"));
+            popupMenu7.add(new JSeparator());
+            popupMenu7.add(itemVerPagamento = new JMenuItem("Ver Pagamentos"));
+
+
 
             lblDespesa = new JLabel("Despesas");
             lblDespesa.setHorizontalAlignment(SwingConstants.CENTER);
@@ -175,23 +193,25 @@ public class MenuPrincipal extends JFrame
 
             add(btnUnidade);
             add(btnMorador);
+            add(btnPagamento);
             add(btnDespesa);
             add(btnManutencao);
             add(btnTabelas);
             add(btnAjuda);
             add(btnSair);
-            for(int i = 0; i<10;i++)
+            for(int i = 0; i<11;i++)
                 add(new JLabel());
 
             add(lblUni);
             add(lblMorador);
+            add(lblPagamento);
             add(lblDespesa);
             add(lblManutencao);
             add(lblTable);
             add(lblAjuda);
             add(lblSair);
 
-             for(int i = 0; i<10;i++)
+             for(int i = 0; i<11;i++)
                 add(new JLabel());
             
           
@@ -201,6 +221,7 @@ public class MenuPrincipal extends JFrame
             btnTabelas.addActionListener(manipulador);
             btnAjuda.addActionListener(manipulador);
             btnMorador.addActionListener(manipulador);
+            btnPagamento.addActionListener(manipulador);
             btnDespesa.addActionListener(manipulador);
             btnManutencao.addActionListener(manipulador);
             btnSair.addActionListener(manipulador);
@@ -209,6 +230,9 @@ public class MenuPrincipal extends JFrame
             itemVerUnidades.addActionListener(manipulador);
             itemCadastrarMorador.addActionListener(manipulador);
             itemVerMoradores.addActionListener(manipulador);
+            itemCadastrarPagamento.addActionListener(manipulador);
+            itemVerPagamento.addActionListener(manipulador);
+
             itemCadastrarDespesas.addActionListener(manipulador);
             itemVerDespesas.addActionListener(manipulador);
             itemCadastrarManutencao.addActionListener(manipulador);
@@ -219,7 +243,8 @@ public class MenuPrincipal extends JFrame
             itemTipoDocumento.addActionListener(manipulador);
             itemCategoriaDespesa.addActionListener(manipulador);
             itemStatusManutencao.addActionListener(manipulador);
-
+            itemTipoPagamento.addActionListener(manipulador);
+            
         }
 
          private class ManipuladorEventos implements ActionListener
@@ -258,6 +283,10 @@ public class MenuPrincipal extends JFrame
                 {
                     Tabela2.editarNovosItems("StatusManutencao.tab", "Novo Status de Manutencao");
                 }
+                else if(evt.getSource() == itemTipoPagamento)
+                {
+                    Tabela2.editarNovosItems("TipoPagamento.tab", "Novo Tipo de Pagamento");
+                }
                 else if(evt.getSource() == btnAjuda)
                 {
                     popupMenu6.show(btnAjuda,0, btnAjuda.getHeight());
@@ -270,6 +299,9 @@ public class MenuPrincipal extends JFrame
                 {
                     popupMenu2.show(btnMorador, 0,btnMorador.getHeight());
                 }
+                else if(evt.getSource() == btnPagamento)
+                    popupMenu7.show(btnPagamento, 0,btnPagamento.getHeight());
+
                 else if(evt.getSource() == btnDespesa)
                 {
                     popupMenu3.show(btnDespesa, 0,btnMorador.getHeight());
@@ -292,6 +324,13 @@ public class MenuPrincipal extends JFrame
                 }
                 else if(evt.getSource() == itemVerMoradores)
                     new InformacoesMoradoresVisao();
+                else if(evt.getSource() == itemCadastrarPagamento)
+                {
+                    PagamentoModelo modelo = new PagamentoModelo();
+                    new PagamentoVisao(false,modelo);
+                }
+                else if(evt.getSource() == itemVerPagamento)
+                    new InformacoesPagamentosVisao();
                 else if(evt.getSource() == itemCadastrarDespesas)
                     JOptionPane.showMessageDialog(null,"Item Cadastrar Despesas");
                 else if(evt.getSource() == itemVerDespesas)

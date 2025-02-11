@@ -341,8 +341,6 @@ public class UnidadeVisao extends JFrame
 
     }
 
-    
-   
 
     public class PainelSul extends JPanel implements ActionListener
     {

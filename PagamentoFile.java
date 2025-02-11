@@ -2,8 +2,8 @@
 Tema: Gestão de Condomínio
 Nome: Valentim Loth Simão Prado
 Numero: 33031
-Ficheiro: MoradorFile.java
-Data: 03/02/2025
+Ficheiro: PagamentoFile.java
+Data: 10/02/2025
 --------------------------------------*/
 
 import javax.swing.*;
@@ -12,15 +12,15 @@ import Calendario.*;
 import java.io.*;
 import java.util.*;
 
-public class MoradorFile extends ObjectsFile
+public class PagamentoFile extends ObjectsFile
 {
 	
-	public MoradorFile()
+	public PagamentoFile()
 	{
-		super("Moradores.DAT", new MoradorModelo() );
+		super("Pagamentos.DAT", new PagamentoModelo() );
 	}
 	
-	public void salvarDados(MoradorModelo modelo)
+	public void salvarDados(PagamentoModelo modelo)
 	{
 		try
 		{
@@ -37,7 +37,7 @@ public class MoradorFile extends ObjectsFile
 		catch (IOException ex)
 		{
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Morador");
+			JOptionPane.showMessageDialog(null, "Falha ao Salvar um Novo Pagamento");
 		}
 	}
 
