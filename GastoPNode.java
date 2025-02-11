@@ -28,7 +28,7 @@ public class GastoPNode extends GastoDadosTable implements SaveWriteReadInteface
     
     public String getKey()
     {
-		return ""+model.getDescricao();
+		return model.getDescricao();
     }
     
     public boolean isEmptyNode()

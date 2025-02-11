@@ -117,7 +117,7 @@ public class GastoDadosTable extends AbstractHashTableCoalashed
 				if( !tmp.isEmptyNode()  )
 				{
 					listaNodes.addElement(tmp.getKey());
-					System.out.println( ""+tmp.getModel().getDescricao() );
+					System.out.println( tmp.getModel().getDescricao() );
 				}
 				else
 					System.out.println(i);

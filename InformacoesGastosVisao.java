@@ -68,6 +68,8 @@ public class InformacoesGastosVisao extends JFrame
             sp = new JScrollPane(tabelaUnidades);
             add(sp);
 
+            GastoDadosTable.showGastos();
+
             popMenu = new JPopupMenu();
             popMenu.add(editar = new JMenuItem("Editar"));
             popMenu.add(eliminar = new JMenuItem("Eliminar"));

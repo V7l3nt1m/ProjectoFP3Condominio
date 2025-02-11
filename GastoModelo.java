@@ -165,16 +165,16 @@ public class GastoModelo implements RegistGeneric
 		try
         {
             stream.writeInt(id);
-tipoGasto.write(stream);
-categoriaGasto.write(stream);
-stream.writeDouble(valorGasto);
-descricao.write(stream);
-dataGasto.write(stream);
-dataAgendamento.write(stream);
-statusManutencao.write(stream);
-fornecedor.write(stream);
-stream.writeBoolean(statusRegisto);
-dataDeCadastro.write(stream);
+            tipoGasto.write(stream);
+            categoriaGasto.write(stream);
+            stream.writeDouble(valorGasto);
+            descricao.write(stream);
+            dataGasto.write(stream);
+            dataAgendamento.write(stream);
+            statusManutencao.write(stream);
+            fornecedor.write(stream);
+            stream.writeBoolean(statusRegisto);
+            dataDeCadastro.write(stream);
 
         }
         catch (IOException ex)
@@ -188,17 +188,17 @@ dataDeCadastro.write(stream);
 	{
        try
 		{
-			stream.writeInt(id);
-tipoGasto.write(stream);
-categoriaGasto.write(stream);
-stream.writeDouble(valorGasto);
-descricao.write(stream);
-dataGasto.write(stream);
-dataAgendamento.write(stream);
-statusManutencao.write(stream);
-fornecedor.write(stream);
-stream.writeBoolean(statusRegisto);
-dataDeCadastro.write(stream);
+			id = stream.readInt();
+            tipoGasto.read(stream);
+            categoriaGasto.read(stream);
+            valorGasto = stream.readDouble();
+            descricao.read(stream);
+            dataGasto.read(stream);
+            dataAgendamento.read(stream);
+            statusManutencao.read(stream);
+            fornecedor.read(stream);
+            statusRegisto = stream.readBoolean();
+            dataDeCadastro.read(stream);
 
 		}
 		catch (IOException ex)
