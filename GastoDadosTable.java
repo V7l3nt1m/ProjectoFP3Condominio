@@ -387,7 +387,7 @@ public class GastoDadosTable extends AbstractHashTableCoalashed
 			{
 				tmp.read(hashCadaver.stream);
 
-				if (!tmp.getKey().equals("") && 
+				if (!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true && 
     (tmp.getKey().equalsIgnoreCase(tmp.getModel().getTipoGasto()) ||
      tmp.getKey().equalsIgnoreCase(tmp.getModel().getDataGasto()) ||
      tmp.getKey().equalsIgnoreCase(tmp.getModel().getCategoriaGasto()) ||

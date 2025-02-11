@@ -387,7 +387,7 @@ public class MoradorDadosTable extends AbstractHashTableCoalashed
 			{
 				tmp.read(hashCadaver.stream);
 
-				if(!tmp.getKey().equals(""))
+				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true)
 				{						
 					System.out.println(tmp.getModel().toString());
 				}	

@@ -447,7 +447,7 @@ public class PagamentoDadosTable extends AbstractHashTableCoalashed
 			{
 				tmp.read(hashCadaver.stream);
 
-				if(!tmp.getKey().equals("") && (tmp.getModel().getTipoPagamento().equalsIgnoreCase(pesquisa) || tmp.getModel().getStatusPagamento().equalsIgnoreCase(pesquisa) || pesquisa.equalsIgnoreCase(""+tmp.getModel().getValorPagar())))
+				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true && (tmp.getModel().getTipoPagamento().equalsIgnoreCase(pesquisa) || tmp.getModel().getStatusPagamento().equalsIgnoreCase(pesquisa) || pesquisa.equalsIgnoreCase(""+tmp.getModel().getValorPagar())))
 				{						
 					JOptionPane.showMessageDialog(null,tmp.getModel().toString(), 
 						"Gestao de Condominio", JOptionPane.INFORMATION_MESSAGE);
