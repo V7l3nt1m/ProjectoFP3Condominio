@@ -307,7 +307,7 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 				}	
 			}
 
-			dados = new String[index][11];
+			dados = new String[index][10];
 
 			hashCadaver.openFile();
 			hashCadaver.stream.seek(8);
@@ -324,11 +324,13 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 					dados[contador][3] = tmp.getModel().getBloco();                          // Acessando o getter do 'model' para 'getBloco()'
 					dados[contador][4] = "" + tmp.getModel().getAndares();                   // Acessando o getter do 'model' para 'getAndares()'
 					dados[contador][5] = "" + tmp.getModel().getArea();                      // Acessando o getter do 'model' para 'getArea()'
-					dados[contador][6] = "" + tmp.getModel().getAndaresDisponiveis();        // Acessando o getter do 'model' para 'getAndaresDisponiveis()'
-					dados[contador][7] = "" + tmp.getModel().getNumQuartos();                // Acessando o getter do 'model' para 'getNumQuartos()'
-					dados[contador][8] = "" + tmp.getModel().getGaragemCapaci();             // Acessando o getter do 'model' para 'getGaragemCapaci()'
-					dados[contador][9] = "" + tmp.getModel().getStatusUnidade();             // Acessando o getter do 'model' para 'getStatusUnidade()'
-					dados[contador][10] = tmp.getModel().getDataCadastro();                  // Acessando o getter do 'model' para 'getDataCadastro()'
+					dados[contador][6] = "" + tmp.getModel().getNumQuartos();                // Acessando o getter do 'model' para 'getNumQuartos()'
+					dados[contador][7] = "" + tmp.getModel().getGaragemCapaci();             // Acessando o getter do 'model' para 'getGaragemCapaci()'
+					if(tmp.getModel().getStatusUnidade() == true)
+						dados[contador][8] = "disponivel";             // Acessando o getter do 'model' para 'getStatusUnidade()'
+					else
+						dados[contador][8] = "indisponivel";            // Acessando o getter do 'model' para 'getStatusUnidade()'
+					dados[contador][9] = tmp.getModel().getDataCadastro();                  // Acessando o getter do 'model' para 'getDataCadastro()'
 
 					contador++;
 				}
@@ -356,7 +358,7 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 			{
 				tmp.read(hashCadaver.stream);
 
-				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true && tmp.getModel().getNumeroUni().equalsIgnoreCase(numeroUni))
+				if(!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true && tmp.getModel().getNumeroUni().equalsIgnoreCase(numeroUni) || numeroUni.equalsIgnoreCase(""+tmp.getModel().getId()))
 				{						
 					return tmp.getModel();
 				}	
@@ -368,7 +370,50 @@ public class UnidadeDadosTable extends AbstractHashTableCoalashed
 			ex.printStackTrace();
 		}		
 
-		return tmp.getModel();
+		return null;
+	}
+
+	public static void pesquisarUnidades(String pesquisa)
+	{
+		UnidadeDadosTable hashCadaver = new UnidadeDadosTable("UNIDADES.DAT",100);
+		UnidadePNode tmp = (UnidadePNode)hashCadaver.getEmptyNode();
+
+		boolean resposta = (pesquisa == "disponivel" ? true : false);
+
+		try
+		{
+			hashCadaver.openFile();
+			hashCadaver.stream.seek(8);
+			
+			for (int i = 0; i < hashCadaver.tableSize; ++i)
+			{
+				tmp.read(hashCadaver.stream);
+
+				if (!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true) 
+{						
+    if (pesquisa.equalsIgnoreCase(tmp.getModel().getTipoUnidade()) ||
+                    pesquisa.equalsIgnoreCase(tmp.getModel().getNumeroUni()) ||
+                    pesquisa.equalsIgnoreCase(tmp.getModel().getBloco()) ||
+                    pesquisa.equalsIgnoreCase("" + tmp.getModel().getAndares()) ||
+                    pesquisa.equalsIgnoreCase("" + tmp.getModel().getArea()) ||
+                    pesquisa.equalsIgnoreCase("" + tmp.getModel().getNumQuartos()) ||
+                    pesquisa.equalsIgnoreCase("" + tmp.getModel().getGaragemCapaci()) ||
+                    pesquisa.equalsIgnoreCase(tmp.getModel().getImagem()) ||
+                    pesquisa.equalsIgnoreCase(tmp.getModel().getDataCadastro()) ||
+                    resposta == tmp.getModel().getStatusUnidade()) {
+					
+                    JOptionPane.showMessageDialog(null, tmp.getModel().toString(),
+                        "Gestão de Condomínio", JOptionPane.INFORMATION_MESSAGE);
+                }
+}
+	
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+
 	}
 
 	public static UnidadeModelo pesquisarUnidadePorId(String id)

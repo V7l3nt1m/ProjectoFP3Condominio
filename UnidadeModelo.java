@@ -17,7 +17,7 @@ import java.time.LocalDate;
 
 public class UnidadeModelo implements RegistGeneric
 {
-    int id, andares, numQuartos, garagemCapacidade,andaresDisponivel;
+    int id, andares, numQuartos, garagemCapacidade;
     StringBufferModelo numeroUnidade, tipoUnidade,bloco, imagem;
     Double area; 
     StringBufferModelo dataDeCadastro; 
@@ -31,7 +31,6 @@ public class UnidadeModelo implements RegistGeneric
         andares = 0;
         numQuartos = 0;
         garagemCapacidade = 0;
-        andaresDisponivel = 0;
         area = 0.0;
         statusUnidade = true;
         statusRegisto = true;
@@ -46,12 +45,11 @@ public class UnidadeModelo implements RegistGeneric
         dataDeCadastro =  new StringBufferModelo((dataAtual.format(formatter)).toString(), 15);
     }
 
-    public UnidadeModelo(int id, int andares, int numQuartos, int andaresDisponivel, double area, String numeroUnidade, String tipoUnidade, String bloco,int garagemCapacidade, String statusUnidade, String imagem)
+    public UnidadeModelo(int id, int andares, int numQuartos,double area, String numeroUnidade, String tipoUnidade, String bloco,int garagemCapacidade, String statusUnidade, String imagem)
     {
         this.id = id;
         this.andares = andares;
         this.numQuartos = numQuartos;
-        this.andaresDisponivel = andaresDisponivel;
         this.area = area;
         this.garagemCapacidade = garagemCapacidade;
 
@@ -140,16 +138,6 @@ public class UnidadeModelo implements RegistGeneric
         andares = newAndares;
     }
 
-    public int getAndaresDisponiveis()
-    {
-        return andaresDisponivel;
-    }
-
-    public void setAndaresDisponiveis(int newAndaresDispo)
-    {
-        andaresDisponivel = newAndaresDispo;
-    }
-
     public int getNumQuartos()
     {
         return numQuartos;
@@ -206,7 +194,6 @@ public class UnidadeModelo implements RegistGeneric
         str += "Bloco: " + getBloco() + "\n";
         str += "Andares: " + getAndares() + "\n";
         str += "Area: " + getArea() + "\n";
-        str += "Andares Disponiveis: " + getAndaresDisponiveis() + "\n";
         str += "Numero de Quartos: " + getNumQuartos() + "\n";
         str += "Capacidade da Garagem: " + getGaragemCapaci() + "\n";
         str += "Estado da Unidade: " + getStatusUnidade() + "\n";
@@ -221,7 +208,7 @@ public class UnidadeModelo implements RegistGeneric
         
         try
         {
-            return 165*2 + 4*5 + 8 + 1*2;// 212 bytes
+            return 165*2 + 4*4 + 8 + 1*2;// 212 bytes
         }
         catch(Exception ex)
         {
@@ -239,7 +226,6 @@ public class UnidadeModelo implements RegistGeneric
             bloco.write(stream);
             stream.writeInt(andares);
             stream.writeDouble(area);
-            stream.writeInt(andaresDisponivel);
             stream.writeInt(numQuartos);
             stream.writeInt(garagemCapacidade);
             stream.writeBoolean(statusUnidade);
@@ -264,7 +250,6 @@ public class UnidadeModelo implements RegistGeneric
             bloco.read(stream);
             andares = stream.readInt();
             area = stream.readDouble();
-            andaresDisponivel = stream.readInt();
             numQuartos = stream.readInt();
             garagemCapacidade = stream.readInt();
             statusUnidade = stream.readBoolean();

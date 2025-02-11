@@ -50,7 +50,6 @@ public class InformacoesUnidadesVisao extends JFrame
             "Bloco", 
             "Num Andares", 
             "Area", 
-            "Andares Disponiveis", 
             "Numero de Quartos", 
             "Capacidade da Garagem", 
             "Status da Unidade", 
@@ -178,7 +177,7 @@ public class InformacoesUnidadesVisao extends JFrame
         {
             if(evt.getSource() == pesquisarBtn)
             {
-                UnidadeDadosTable.pesquisarUnidadePorBlocoNumero(getPesquisa());
+                UnidadeDadosTable.pesquisarUnidades(getPesquisa());
             }
         }
     }

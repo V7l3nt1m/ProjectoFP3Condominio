@@ -147,6 +147,53 @@ public class MoradorDadosTable extends AbstractHashTableCoalashed
 		}		
 	}
 
+
+	public static void pesquisarMoradores(String pesquisa)
+	{
+		MoradorDadosTable hashCadaver = new MoradorDadosTable("MORADORES.DAT",100);
+		MoradorPNode tmp = (MoradorPNode)hashCadaver.getEmptyNode();
+
+		boolean resposta = (pesquisa == "sim" ? true : false);
+
+		UnidadeModelo molUni = UnidadeDadosTable.pesquisarUnidadePorNumeroUni(pesquisa);
+		try
+		{
+			hashCadaver.openFile();
+			hashCadaver.stream.seek(8);
+			
+			for (int i = 0; i < hashCadaver.tableSize; ++i)
+			{
+				tmp.read(hashCadaver.stream);
+
+				if (!tmp.getKey().equals("") && tmp.getModel().getStatusRegisto() == true) 
+		{						
+		if (
+			pesquisa.equalsIgnoreCase(tmp.getModel().getNome()) ||
+			pesquisa.equalsIgnoreCase(tmp.getModel().getTipoDocumento()) ||
+			pesquisa.equalsIgnoreCase(tmp.getModel().getNumDoc()) ||
+			pesquisa.equalsIgnoreCase(tmp.getModel().getTelefone()) ||
+			pesquisa.equalsIgnoreCase(tmp.getModel().getEmail()) ||
+			pesquisa.equalsIgnoreCase("" + tmp.getModel().getNPorta()) ||
+			molUni.getId() == tmp.getModel().getUnidade() ||
+			pesquisa.equalsIgnoreCase("" + tmp.getModel().getMoradorResponsavelId()) ||
+			pesquisa.equalsIgnoreCase(tmp.getModel().getDataCadastro()) ||
+			resposta == tmp.getModel().isResponsavel()) {
+
+			JOptionPane.showMessageDialog(null, tmp.getModel().toString(),
+				"Gestão de Condomínio", JOptionPane.INFORMATION_MESSAGE);
+		}
+
+}
+	
+			}					
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}		
+
+	}
+
 	
 	public void eliminarMorador(MoradorPNode node)
 	{

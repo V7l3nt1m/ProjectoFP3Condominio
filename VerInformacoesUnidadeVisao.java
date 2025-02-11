@@ -104,13 +104,6 @@ public class VerInformacoesUnidadeVisao extends JFrame
         add(areaLbl);
 
         y += incremento;
-        JLabel andaresDispLbl = new JLabel("Andares Disponíveis: " + modelo.getAndaresDisponiveis());
-        andaresDispLbl.setFont(new Font("Monospaced", Font.BOLD, 17));
-        andaresDispLbl.setBounds(535, y, 400, 30);
-        andaresDispLbl.setForeground(customColor);
-        add(andaresDispLbl);
-
-        y += incremento;
         JLabel numQuartosLbl = new JLabel("Número de Quartos: " + modelo.getNumQuartos());
         numQuartosLbl.setFont(new Font("Monospaced", Font.BOLD, 17));
         numQuartosLbl.setBounds(535, y, 400, 30);
@@ -125,7 +118,7 @@ public class VerInformacoesUnidadeVisao extends JFrame
         add(garagemCapLbl);
 
         y += incremento;
-        JLabel statusLbl = new JLabel("Estado da Unidade: " + modelo.getStatusUnidade());
+        JLabel statusLbl = new JLabel("Estado da Unidade: " + (modelo.getStatusUnidade() ? "disponível" : "indisponível"));
         statusLbl.setFont(new Font("Monospaced", Font.BOLD, 17));
         statusLbl.setBounds(535, y, 400, 30);
         statusLbl.setForeground(customColor);

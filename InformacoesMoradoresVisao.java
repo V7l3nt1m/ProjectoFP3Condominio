@@ -175,9 +175,7 @@ public class InformacoesMoradoresVisao extends JFrame
         {
             if(evt.getSource() == pesquisarBtn)
             {
-                MoradorModelo mol = MoradorDadosTable.pesquisarMoradorIdPorNumDoc(getPesquisa());
-                if(mol != null)
-                    JOptionPane.showMessageDialog(null, MoradorDadosTable.pesquisarMoradorIdPorNumDoc(getPesquisa()).toString());
+                MoradorDadosTable.pesquisarMoradores(getPesquisa());
             }
         }
     }

@@ -96,7 +96,6 @@ public class MenuPrincipal extends JFrame
             itemBloco = new JMenuItem("Bloco");
             itemTipoDocumento = new JMenuItem("Tipo de Documento");
             itemCategoriaDespesa = new JMenuItem("Categoria de Despesas");
-            itemStatusManutencao = new JMenuItem("Status da Manutencao");
             itemTipoPagamento = new JMenuItem("Tipo de Pagamento");
 
             popupMenu5.add(itemTipoUnidade);
@@ -106,8 +105,6 @@ public class MenuPrincipal extends JFrame
             popupMenu5.add(itemTipoDocumento);
             popupMenu5.add(new JSeparator());
             popupMenu5.add(itemCategoriaDespesa);
-            popupMenu5.add(new JSeparator());
-            popupMenu5.add(itemStatusManutencao);
             popupMenu5.add(new JSeparator());
             popupMenu5.add(itemTipoPagamento);
 
@@ -240,7 +237,6 @@ public class MenuPrincipal extends JFrame
             itemBloco.addActionListener(manipulador);
             itemTipoDocumento.addActionListener(manipulador);
             itemCategoriaDespesa.addActionListener(manipulador);
-            itemStatusManutencao.addActionListener(manipulador);
             itemTipoPagamento.addActionListener(manipulador);
             
         }
@@ -276,10 +272,6 @@ public class MenuPrincipal extends JFrame
                 else if(evt.getSource() == itemCategoriaDespesa)
                 {
                     Tabela2.editarNovosItems("CategoriaDespesa.tab", "Nova Categoria Despesa");
-                }
-                else if(evt.getSource() == itemStatusManutencao)
-                {
-                    Tabela2.editarNovosItems("StatusManutencao.tab", "Novo Status de Manutencao");
                 }
                 else if(evt.getSource() == itemTipoPagamento)
                 {

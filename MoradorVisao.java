@@ -33,11 +33,16 @@ public class MoradorVisao extends JFrame
         getContentPane().add(painelNorte = new PainelNorte(), BorderLayout.NORTH);
 
         if (!alterar)
+        {
             getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
+        }
         else
+        {
             getContentPane().add(painelCentro = new PainelCentro(modelo), BorderLayout.CENTER);
+        }
 
         getContentPane().add(painelSul = new PainelSul(), BorderLayout.SOUTH);
+
 
         setSize(490,500);
         setLocationRelativeTo(null);
@@ -67,6 +72,7 @@ public class MoradorVisao extends JFrame
         private String opcoes[] = {"sim","nao"};
         private JLabel idLbl, nomeLbl, numDocLbl, telefoneLbl, emailLbl, nPortaLbl, numeroUnidadeLbl, moradorResponsavelLbl, isResponsavelLbl, tipoDocumentoLbl;
         private MoradorFile file;
+        private MoradorModelo modMorador;
 
         public PainelCentro()
         {
@@ -116,6 +122,8 @@ public class MoradorVisao extends JFrame
 
         public PainelCentro(MoradorModelo modelo)
         {
+            modMorador = modelo;
+
             setLayout(new GridLayout(10,2));
             file = new MoradorFile();
             idJTF = new JTextField();
@@ -185,6 +193,11 @@ public class MoradorVisao extends JFrame
     public void setId(int id)
     {
         idJTF.setText(""+id);
+    }
+
+    public MoradorModelo getModelo()
+    {
+        return modMorador;
     }
 
     public String getNome()
@@ -335,10 +348,20 @@ public class MoradorVisao extends JFrame
                 UnidadeModelo modeloUni = UnidadeDadosTable.pesquisarUnidadePorNumeroUni(getNumeroUnidade());
                 if(modeloUni != null)
                 {
-                    MoradorModelo modelo = new MoradorModelo(getId(), modeloUni.getId(), -1, getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
-                    JOptionPane.showMessageDialog(null, modelo.toString());
-                    modelo.salvar();
-                    dispose();
+                    if(modeloUni.getStatusUnidade() == true)
+                    {
+                        MoradorModelo modelo = new MoradorModelo(getId(), modeloUni.getId(), -1, getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
+                        JOptionPane.showMessageDialog(null, modelo.toString());
+                        modelo.salvar();
+
+                        modeloUni.setStatusUnidade(false);
+                        modeloUni.editar();
+                        dispose();
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Unidade já possui um responsavel", "Verificador de campos", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else
                 {
@@ -348,6 +371,8 @@ public class MoradorVisao extends JFrame
             else
             {
                 MoradorModelo modeloResponsavel = MoradorDadosTable.pesquisarMoradorIdPorNumDoc(getMoradorResponsavel());
+                UnidadeModelo modeloUni = UnidadeDadosTable.pesquisarUnidadePorNumeroUni(getNumeroUnidade());
+
                 if(modeloResponsavel != null)
                 {
                     MoradorModelo modelo = new MoradorModelo(getId(), Integer.parseInt(getNumeroUnidade()), modeloResponsavel.getId(), getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
@@ -362,17 +387,34 @@ public class MoradorVisao extends JFrame
             }
 		}
     
-        public void alterar()
+        public void alterar(MoradorModelo modelo2)
 		{			
 			if(getIsResponsavel() == true)
             {
                 UnidadeModelo modeloUni = UnidadeDadosTable.pesquisarUnidadePorNumeroUni(getNumeroUnidade());
                 if(modeloUni != null)
                 {
-                    MoradorModelo modelo = new MoradorModelo(getId(), modeloUni.getId(), -1, getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
-                    JOptionPane.showMessageDialog(null, modelo.toString());
-                    modelo.editar();
-                    dispose();
+                    if(modeloUni.getId() == modelo2.getUnidade())
+                    {
+                        MoradorModelo modelo = new MoradorModelo(getId(), modeloUni.getId(), -1, getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
+                        JOptionPane.showMessageDialog(null, modelo.toString());
+                        modelo.editar();
+                        dispose();
+                    }
+                    else
+                    {
+                        MoradorModelo modelo = new MoradorModelo(getId(), modeloUni.getId(), -1, getNome(), getTipoDocumento(), getNumDoc(), getTelefone(), getEmail(), getNPorta(), getIsResponsavel());
+                        JOptionPane.showMessageDialog(null, modelo.toString());
+                        modelo.editar();
+
+                        modeloUni.setStatusUnidade(false);
+                        modeloUni.editar();
+
+                        UnidadeModelo mod2 = UnidadeDadosTable.pesquisarUnidadePorId(""+modelo2.getUnidade());
+                        mod2.setStatusUnidade(true);
+                        mod2.editar();
+                        dispose();
+                    }
                 }
                 else
                 {
@@ -421,7 +463,7 @@ public class MoradorVisao extends JFrame
                     if(painelCentro.verificarCampos())
                     {
                         if(editar)
-                            painelCentro.alterar();
+                            painelCentro.alterar(painelCentro.getModelo());
                         else
                             painelCentro.salvar();
                     }

@@ -72,11 +72,11 @@ public class UnidadeVisao extends JFrame
 
     public class PainelCentro extends JPanel implements ActionListener
     {
-        private JTextField idJTF, areaJTF,numeroUniJTF, andaresJTF, numQuartosJTF, garagemCapacidadeJTF, andaresDisponivelJTF, imagemCaminhoJTF;
+        private JTextField idJTF, areaJTF,numeroUniJTF, andaresJTF, numQuartosJTF, garagemCapacidadeJTF, imagemCaminhoJTF;
         private JComboBox tipoUnidadeJCB, blocoJCB,statusUnidadeJCB;
         private ImageIcon casasImagem;
         private Image imagemCasa; 
-        private JLabel lblArea, lblNumeroUni, lblAndares, lblNumQuartos, lblGaragemCap, lblAndaresDisp,lblStatusUnidade,lblImagem, lblImagemSelecionada, lblimg;
+        private JLabel lblArea, lblNumeroUni, lblAndares, lblNumQuartos, lblGaragemCap,lblStatusUnidade,lblImagem, lblImagemSelecionada, lblimg;
         private JLabel lblTipoUnidade, lblBloco;
         private String status[] = {"disponivel","indisponivel"};
         private JButton imagemJB;   
@@ -162,7 +162,7 @@ public class UnidadeVisao extends JFrame
 
         public PainelCentro(UnidadeModelo modelo)
         {
-            setLayout(new GridLayout(9,2));
+            setLayout(new GridLayout(11,2));
             lblTipoUnidade = new JLabel("Tipo de Unidade");
             tipoUnidadeJCB = UInterfaceBox.createJComboBoxsTabela2("TipoUnidade.tab");
             tipoUnidadeJCB.setSelectedItem(modelo.getTipoUnidade());
@@ -195,13 +195,12 @@ public class UnidadeVisao extends JFrame
             garagemCapacidadeJTF = new JTextField();
             garagemCapacidadeJTF.setText(""+modelo.getGaragemCapaci());
 
-            lblAndaresDisp = new JLabel("Andares Disponiveis");
-            andaresDisponivelJTF = new JTextField();
-            andaresDisponivelJTF.setText(""+modelo.getAndaresDisponiveis());
-
             lblStatusUnidade = new JLabel("Estado da Unidade");
             statusUnidadeJCB = new JComboBox(status);
             statusUnidadeJCB.setSelectedItem(modelo.getStatusUnidade());
+
+            lblImagem = new JLabel("Imagem da Unidade");
+            imagemJB = new JButton("Upload imagem");
 
             add(lblTipoUnidade);
             add(tipoUnidadeJCB);
@@ -218,9 +217,6 @@ public class UnidadeVisao extends JFrame
             add(lblAndares);
             add(andaresJTF);
 
-            add(lblAndaresDisp);
-            add(andaresDisponivelJTF);
-
             add(lblGaragemCap);
             add(garagemCapacidadeJTF);
 
@@ -229,6 +225,18 @@ public class UnidadeVisao extends JFrame
 
             add(lblStatusUnidade);
             add(statusUnidadeJCB);
+
+            add(lblImagem);
+            add(imagemJB);
+
+            add(lblImagemSelecionada = new JLabel("Imagem Selecionada: "));
+            imagemCaminhoJTF = new JTextField();
+            setImagemCaminho(modelo.getImagem());
+            imagemCaminhoJTF.setEnabled(false);
+            add(imagemCaminhoJTF);
+
+            imagemJB.addActionListener(this);
+
         }
 
 
@@ -302,15 +310,6 @@ public class UnidadeVisao extends JFrame
         andaresJTF.setText(""+newAndares);
     }
 
-    public int getAndaresDisponiveis()
-    {
-        return Integer.parseInt( andaresDisponivelJTF.getText().trim());
-    }
-
-    public void setAndaresDisponiveis(int newAndaresDispo)
-    {
-        andaresDisponivelJTF.setText(""+newAndaresDispo);
-    }
 
     public int getNumQuartos()
     {
@@ -411,7 +410,7 @@ public class UnidadeVisao extends JFrame
 
         public void salvar()
 		{			
-			UnidadeModelo modelo = new UnidadeModelo(getId(), getAndares(), getNumQuartos(),getAndares(), getArea(),
+			UnidadeModelo modelo = new UnidadeModelo(getId(), getAndares(), getNumQuartos(),getArea(),
             getNumeroUni(), getTipoUnidade(), getBloco(),getGaragemCapaci(), getStatusUnidade(), getImagemCaminho());
 
             JOptionPane.showMessageDialog(null, modelo.toString());
@@ -422,7 +421,7 @@ public class UnidadeVisao extends JFrame
     
         public void alterar()
 		{
-			UnidadeModelo modelo = new UnidadeModelo(getId(), getAndares(), getNumQuartos(),getAndaresDisponiveis(), getArea(),
+			UnidadeModelo modelo = new UnidadeModelo(getId(), getAndares(), getNumQuartos(), getArea(),
             getNumeroUni(), getTipoUnidade(), getBloco(),getGaragemCapaci(), getStatusUnidade(), getImagemCaminho());
 			JOptionPane.showMessageDialog(null, modelo.toString() );
             modelo.editar();		

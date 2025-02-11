@@ -23,26 +23,25 @@ Este projeto tem o objetivo de gerenciar as informações das unidades, moradore
 
 - InformacoesUnidadesVisao
 - InformacoesMoradoresVisao
-- InformacoesDespesasVisao
 - InformacoesGastosVisao
 - InformacoesPagamentoVisao
+- VerInformacesUnidadeVisao
 
 3. Entidades Fortes e Seus Atributos (Modelo)
 
 
 - UnidadeModelo 
     int id
-    String numeroUnidade
     String tipoUnidade     
-    double area
-    int andares
-    int numQuartos
+    String numeroUnidade
     String bloco
+    int andares
+    double area
+    int numQuartos
     int garagemCapacidade
     boolean statusUnidade
-    int andaresDisponivel
     String dataDeCadastro
-    boolean status
+    boolean statusRegistro
 
 - MoradorModelo
     int id
@@ -51,41 +50,56 @@ Este projeto tem o objetivo de gerenciar as informações das unidades, moradore
 	String numero_documento
     String telefone
     String email
-    UnidadeModelo unidade; //id da casa ou apartamento
-    boolean statusAtivo;
     String nPorta; //000 se for casa
     boolean isResponsavel;
-    int moradorResponsavelId;
     String DataDeCadastro
+    UnidadeModelo unidade; //id da casa ou apartamento
+    int moradorResponsavelId;
+    boolean statusRegistro
 
 - PagamentoModelo
-    int id;                   // Identificador único do pagamento
-    MoradorModelo morador;    // Morador que fez o pagamento
-    UnidadeModelo unidade;    // Unidade associada ao pagamento (se necessário)
-    double valorPago;         // Valor pago
-    String dataPagamento;     // Data do pagamento
-    String tipoPagamento;     // Tipo de pagamento (ex: Mensalidade, Multa, Taxa Extra)
-    String statusPagamento;   // Status do pagamento (ex: Concluído, Pendente, Atrasado)
+    int id;                   
+    MoradorModelo morador;     
+    UnidadeModelo unidade;    
+    String tipoPagamento;    
+    double valorPago;
+    String descricao          
+    String statusPagamento;   
+    String dataPagamento;     
+    String DataDeCadastro
+    boolean statusRegistro
+
 
 - GastosModelo
     int id;
+    String tipoGasto;
+    String categoriaGasto;
+    double valor;
     String descricao;
     String dataGasto;
-    double valor;
-    String categoriaGasto; // Ex.: Manutenção, Água, Energia, etc.
-    String tipoGasto; // "DESPESA" ou "MANUTENÇÃO"
-    String dataCadastro;
-
-    // Campos opcionais para manutenção
     String dataAgendamento;
     String statusManutencao;
     String fornecedor;
+    String DataDeCadastro
+    boolean statusRegistro
 
 4. Ficheiro
 - UnidadeFile.dat
 - MoradorFile.dat
-- DespesaFile.dat
+- PagamentoFile.dat
 - GastosFile.dat
+
+5.Nodes
+- UnidadePNode.java
+- MoradorPNode.java
+- PagamentoPNode.java
+- GastoPNode.java
+
+6.Dados Table
+- UnidadeDadosTable
+- MoradorDadosTable
+- PagamentoDadosTable
+- GastoDadosTable
 
 5. Tabelas de Apoio (Auxiliares) = Entidades Fracas
 
@@ -94,7 +108,6 @@ Este projeto tem o objetivo de gerenciar as informações das unidades, moradore
 - TipoDocumento.tab 
 - CategoriaDespesa.tab
 - TipoPagamento
-- StatusManutencao.tab
 
 6. Diversos
 6.1 - Implementação: Java Swing
