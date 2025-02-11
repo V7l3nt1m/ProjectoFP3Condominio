@@ -59,7 +59,7 @@ public class InformacoesUnidadesVisao extends JFrame
         private JScrollPane sp;
         private JTable tabelaUnidades;
         private JPopupMenu popMenu;
-        private JMenuItem editar, eliminar;
+        private JMenuItem editar, eliminar,verInformacoes;
         private Vector<String> dados = new Vector();
 
         public PainelCentro()
@@ -72,22 +72,29 @@ public class InformacoesUnidadesVisao extends JFrame
             popMenu = new JPopupMenu();
             popMenu.add(editar = new JMenuItem("Editar"));
             popMenu.add(eliminar = new JMenuItem("Eliminar"));
+            popMenu.add(verInformacoes = new JMenuItem("Ver Informacoes Completa"));
 
             eliminar.addActionListener(this);
             editar.addActionListener(this);
+            verInformacoes.addActionListener(this);
             tabelaUnidades.addMouseListener(this);
         }
 
         public void actionPerformed(ActionEvent e)
         {
-            if(e.getSource() == editar)
-            {
-                int selectedRow = tabelaUnidades.getSelectedRow();
+            int selectedRow = tabelaUnidades.getSelectedRow();
                 String id = ""+tabelaUnidades.getValueAt(selectedRow,0);
                 UnidadeModelo modelo;
                 modelo = UnidadeDadosTable.pesquisarUnidadePorId(id);
+
+            if(e.getSource() == editar)
+            {
                 dispose();
                 new UnidadeVisao(true, modelo);
+            }
+            else if(e.getSource() == verInformacoes)
+            {
+                new VerInformacoesUnidadeVisao(modelo);
             }
             else
             {
@@ -99,10 +106,6 @@ public class InformacoesUnidadesVisao extends JFrame
                 }
                 else
                 {
-                    int selectedRow = tabelaUnidades.getSelectedRow();
-                    String id = ""+tabelaUnidades.getValueAt(selectedRow,0);
-                    UnidadeModelo modelo;
-                    modelo = UnidadeDadosTable.pesquisarUnidadePorId(id);
                     modelo.eliminar();
                     dispose();
                 }

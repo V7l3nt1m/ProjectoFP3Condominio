@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class UnidadeModelo implements RegistGeneric
 {
     int id, andares, numQuartos, garagemCapacidade,andaresDisponivel;
-    StringBufferModelo numeroUnidade, tipoUnidade,bloco;
+    StringBufferModelo numeroUnidade, tipoUnidade,bloco, imagem;
     Double area; 
     StringBufferModelo dataDeCadastro; 
     boolean statusUnidade, statusRegisto;
@@ -40,12 +40,13 @@ public class UnidadeModelo implements RegistGeneric
 		numeroUnidade = new StringBufferModelo("", 20); 
 		tipoUnidade = new StringBufferModelo("", 20);
         bloco = new StringBufferModelo("", 10); 
+        imagem = new StringBufferModelo("", 100);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         dataDeCadastro =  new StringBufferModelo((dataAtual.format(formatter)).toString(), 15);
     }
 
-    public UnidadeModelo(int id, int andares, int numQuartos, int andaresDisponivel, double area, String numeroUnidade, String tipoUnidade, String bloco,int garagemCapacidade, String statusUnidade)
+    public UnidadeModelo(int id, int andares, int numQuartos, int andaresDisponivel, double area, String numeroUnidade, String tipoUnidade, String bloco,int garagemCapacidade, String statusUnidade, String imagem)
     {
         this.id = id;
         this.andares = andares;
@@ -57,6 +58,8 @@ public class UnidadeModelo implements RegistGeneric
 		this.numeroUnidade = new StringBufferModelo(numeroUnidade, 20); 
 		this.tipoUnidade = new StringBufferModelo(tipoUnidade, 20);
 		this.bloco = new StringBufferModelo(bloco, 10);
+        this.imagem = new StringBufferModelo(imagem, 100);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.dataDeCadastro =  new StringBufferModelo((dataAtual.format(formatter)).toString(), 15);
 
@@ -85,6 +88,16 @@ public class UnidadeModelo implements RegistGeneric
     public void setTipoUnidade(String newTipoUnidade)
     {
         tipoUnidade = new StringBufferModelo(newTipoUnidade, 20);
+    }
+
+     public String getImagem()
+    {
+        return imagem.toStringEliminatingSpaces(); 
+    }
+
+    public void setImagem(String newImagem)
+    {
+        imagem = new StringBufferModelo(newImagem, 10);
     }
 
     public String getBloco()
@@ -196,7 +209,8 @@ public class UnidadeModelo implements RegistGeneric
         str += "Andares Disponiveis: " + getAndaresDisponiveis() + "\n";
         str += "Numero de Quartos: " + getNumQuartos() + "\n";
         str += "Capacidade da Garagem: " + getGaragemCapaci() + "\n";
-        str += "Estado da Unidade: " + getStatusUnidade() + "\n"; 
+        str += "Estado da Unidade: " + getStatusUnidade() + "\n";
+        str += "Imagem Caminho: " + getImagem() + "\n";
         str += "Data de Cadastro: " + getDataCadastro() + "\n";
         str += "Status do Registo: " + getStatusRegisto() + "\n";
         return str;
@@ -207,7 +221,7 @@ public class UnidadeModelo implements RegistGeneric
         
         try
         {
-            return 65*2 + 4*5 + 8 + 1*2;// 212 bytes
+            return 165*2 + 4*5 + 8 + 1*2;// 212 bytes
         }
         catch(Exception ex)
         {
@@ -228,8 +242,9 @@ public class UnidadeModelo implements RegistGeneric
             stream.writeInt(andaresDisponivel);
             stream.writeInt(numQuartos);
             stream.writeInt(garagemCapacidade);
-            dataDeCadastro.write(stream);
             stream.writeBoolean(statusUnidade);
+            imagem.write(stream);
+            dataDeCadastro.write(stream);
             stream.writeBoolean(statusRegisto);
         }
         catch (IOException ex)
@@ -252,8 +267,9 @@ public class UnidadeModelo implements RegistGeneric
             andaresDisponivel = stream.readInt();
             numQuartos = stream.readInt();
             garagemCapacidade = stream.readInt();
-            dataDeCadastro.read(stream);
             statusUnidade = stream.readBoolean();
+            imagem.read(stream);
+            dataDeCadastro.read(stream);
             statusRegisto = stream.readBoolean();	
 		}
 		catch (IOException ex)

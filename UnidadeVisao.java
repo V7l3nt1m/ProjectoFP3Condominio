@@ -14,6 +14,11 @@ import SwingComponents.*;
 import Calendario.*;
 import javax.swing.UIManager.*;
 import java.time.LocalDate;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 
 public class UnidadeVisao extends JFrame
@@ -34,14 +39,17 @@ public class UnidadeVisao extends JFrame
 
         getContentPane().add(painelNorte = new PainelNorte(), BorderLayout.NORTH);
 
-        if (!alterar)
-            getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
-        else
-            getContentPane().add(painelCentro = new PainelCentro(modelo), BorderLayout.CENTER);
+        if (!alterar) {
+            painelCentro = new PainelCentro();
+        } else {
+            painelCentro = new PainelCentro(modelo);
+        }
+        getContentPane().add(painelCentro, BorderLayout.CENTER);
 
         getContentPane().add(painelSul = new PainelSul(), BorderLayout.SOUTH);
 
-        setSize(490,500);
+    
+        pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -62,18 +70,25 @@ public class UnidadeVisao extends JFrame
         }
     }
 
-    public class PainelCentro extends JPanel
+    public class PainelCentro extends JPanel implements ActionListener
     {
-        private JTextField idJTF, areaJTF,numeroUniJTF, andaresJTF, numQuartosJTF, garagemCapacidadeJTF, andaresDisponivelJTF;
+        private JTextField idJTF, areaJTF,numeroUniJTF, andaresJTF, numQuartosJTF, garagemCapacidadeJTF, andaresDisponivelJTF, imagemCaminhoJTF;
         private JComboBox tipoUnidadeJCB, blocoJCB,statusUnidadeJCB;
-        
-        private JLabel lblArea, lblNumeroUni, lblAndares, lblNumQuartos, lblGaragemCap, lblAndaresDisp,lblStatusUnidade;
+        private ImageIcon casasImagem;
+        private Image imagemCasa; 
+        private JLabel lblArea, lblNumeroUni, lblAndares, lblNumQuartos, lblGaragemCap, lblAndaresDisp,lblStatusUnidade,lblImagem, lblImagemSelecionada, lblimg;
         private JLabel lblTipoUnidade, lblBloco;
         private String status[] = {"disponivel","indisponivel"};
+        private JButton imagemJB;   
+        private JFileChooser imagemJFC;
+        private int returnValue;
+        private JFrame frame = new JFrame("Selecionar Arquivo");
+        private JPanel painelImagem;
+        public String pastaDestino = "imagensUnidades/";
 
         public PainelCentro()
         {
-            setLayout(new GridLayout(8,2));
+            setLayout(new GridLayout(11,2));
             lblTipoUnidade = new JLabel("Tipo de Unidade");
             tipoUnidadeJCB = UInterfaceBox.createJComboBoxsTabela2("TipoUnidade.tab");
 
@@ -105,6 +120,9 @@ public class UnidadeVisao extends JFrame
             statusUnidadeJCB = new JComboBox(status);
             statusUnidadeJCB.setFocusable(false);
 
+            lblImagem = new JLabel("Imagem da Unidade");
+            imagemJB = new JButton("Upload imagem");
+    
 
             add(lblTipoUnidade);
             add(tipoUnidadeJCB);
@@ -129,6 +147,16 @@ public class UnidadeVisao extends JFrame
 
             add(lblStatusUnidade);
             add(statusUnidadeJCB);
+
+            add(lblImagem);
+            add(imagemJB);
+
+            add(lblImagemSelecionada = new JLabel("Imagem Selecionada: "));
+            imagemCaminhoJTF = new JTextField();
+            imagemCaminhoJTF.setEnabled(false);
+            add(imagemCaminhoJTF);
+
+            imagemJB.addActionListener(this);
             
         }
 
@@ -212,6 +240,16 @@ public class UnidadeVisao extends JFrame
     public void setId(int id)
     {
         idJTF.setText(""+id);
+    }
+
+    private String getImagemCaminho()
+    {
+        return imagemCaminhoJTF.getText().trim();
+    }
+
+    public void setImagemCaminho(String newCaminhoImagem)
+    {
+        imagemCaminhoJTF.setText(newCaminhoImagem);
     }
 
     public String getTipoUnidade()
@@ -309,20 +347,72 @@ public class UnidadeVisao extends JFrame
         return String.valueOf(valor).equals("") || valor == null || String.valueOf(valor).equals("0") || String.valueOf(valor).equals("0.0");
     }
 
+    public String copiarImagemComID(String origem, String pastaDestinoo, String id)
+    {
+        try {
+            Path origemPath = Path.of(origem);
+            String nomeOriginal = new File(origem).getName(); // Nome do arquivo original
+            String extensao = nomeOriginal.substring(nomeOriginal.lastIndexOf(".")); // Obtém a extensão
+            
+            // Novo nome do arquivo com ID
+            String novoNome = "imagem_" + id + extensao;
+            
+            // Caminho completo do novo arquivo
+            Path destinoPath = Path.of(pastaDestino, novoNome);
+
+            // Cria a pasta de destino se não existir
+            Files.createDirectories(destinoPath.getParent());
+
+            // Copia a imagem para o novo local
+            Files.copy(origemPath, destinoPath, StandardCopyOption.REPLACE_EXISTING);
+
+            System.out.println("Imagem copiada com sucesso para: " + destinoPath);
+
+            return ""+destinoPath;
+        } catch (IOException e) {
+            System.err.println("Erro ao copiar a imagem: " + e.getMessage());
+        }
+    
+        return null;
+    }
+
+    public void actionPerformed(ActionEvent evt)
+    {
+        if(evt.getSource() == imagemJB)
+        {
+            imagemJFC = new JFileChooser();
+            returnValue = imagemJFC.showOpenDialog(null);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) 
+            {
+                File selectedFile = imagemJFC.getSelectedFile(); // Obtém o arquivo selecionado
+                JOptionPane.showMessageDialog(frame,"Arquivo selecionado: " + selectedFile.getAbsolutePath());
+                String nomeImagemGuardar = copiarImagemComID(selectedFile.getAbsolutePath(), pastaDestino, getNumeroUni());
+
+                setImagemCaminho(nomeImagemGuardar);
+
+                // Obtém a imagem original do ImageIcon
+            }
+            else
+                JOptionPane.showMessageDialog(null,"NENHUM ARQUIVO SELECIONADO");
+        }
+    }
+
 
      public boolean verificarCampos()
         {
             if(isEmpty(getId()) || isEmpty(getTipoUnidade()) || isEmpty(getBloco()) || 
             isEmpty(getArea()) || isEmpty(getNumeroUni()) || isEmpty(getAndares()) || isEmpty(getNumQuartos())
-            || isEmpty(getGaragemCapaci()) )
+            || isEmpty(getGaragemCapaci()) || isEmpty(getImagemCaminho()))
                     return false;
                 return true; 
         }
 
+
         public void salvar()
 		{			
 			UnidadeModelo modelo = new UnidadeModelo(getId(), getAndares(), getNumQuartos(),getAndares(), getArea(),
-            getNumeroUni(), getTipoUnidade(), getBloco(),getGaragemCapaci(), getStatusUnidade());
+            getNumeroUni(), getTipoUnidade(), getBloco(),getGaragemCapaci(), getStatusUnidade(), getImagemCaminho());
 
             JOptionPane.showMessageDialog(null, modelo.toString());
 
@@ -333,7 +423,7 @@ public class UnidadeVisao extends JFrame
         public void alterar()
 		{
 			UnidadeModelo modelo = new UnidadeModelo(getId(), getAndares(), getNumQuartos(),getAndaresDisponiveis(), getArea(),
-            getNumeroUni(), getTipoUnidade(), getBloco(),getGaragemCapaci(), getStatusUnidade());
+            getNumeroUni(), getTipoUnidade(), getBloco(),getGaragemCapaci(), getStatusUnidade(), getImagemCaminho());
 			JOptionPane.showMessageDialog(null, modelo.toString() );
             modelo.editar();		
 			dispose();
