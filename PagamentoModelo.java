@@ -158,7 +158,7 @@ public void setDescricao(String descricao) {
     
     public String toString()
     {
-        String str = "Dados da Unidade Modelo\n\n";
+        String str = "Dados do Pagamento Modelo\n\n";
 
         str += "Id: " + getId() + "\n";
         str += "Id do Morador: " + getIdMorador() + "\n";

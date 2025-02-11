@@ -2,7 +2,7 @@
 Tema: Gestão de Condomínio
 Nome: Valentim Loth Simão Prado
 Numero: 33031
-Ficheiro: InformacoesPagamentosVisao.java
+Ficheiro: InformacoesGastosVisao.java
 Data: 07/02/2025
 --------------------------------------*/
 
@@ -14,7 +14,7 @@ import Calendario.*;
 import javax.swing.UIManager.*;
 import java.util.*;
 
-public class InformacoesPagamentosVisao extends JFrame
+public class InformacoesGastosVisao extends JFrame
 {
     private PainelCentro painelCentro;
     private PainelCentro2 painelCentro2;
@@ -22,16 +22,16 @@ public class InformacoesPagamentosVisao extends JFrame
     private JTabbedPane tabPanel;
 
 
-    public InformacoesPagamentosVisao()
+    public InformacoesGastosVisao()
     {
-        super("Registro de Pagamentos");
+        super("Registro de Gastos");
         definirTema();
         getContentPane().add(painelCentro = new PainelCentro(), BorderLayout.CENTER);
         getContentPane().add(painelCentro2 = new PainelCentro2(), BorderLayout.CENTER);
 
         tabPanel = new JTabbedPane();
-        tabPanel.addTab("Registro de Pagamentos", painelCentro);
-        tabPanel.addTab("Pesquisa Registro de Pagamentos", painelCentro2);
+        tabPanel.addTab("Registro de Gastos", painelCentro);
+        tabPanel.addTab("Pesquisa Registro de Gastos", painelCentro2);
 
 
         getContentPane().add(tabPanel, BorderLayout.NORTH);
@@ -45,14 +45,15 @@ public class InformacoesPagamentosVisao extends JFrame
     {
         private String[] colunas = {
             "ID", 
-            "Numero do Documento", 
-            "Numero da Unidade", 
-            "Tipo de Pagamento", 
-            "Valor a Pagar", 
+            "Tipo de Gasto", 
+            "Categoria de Gasto", 
+            "Valor gasto", 
             "Descricao", 
-            "Status do Pagamento", 
-            "Data de Pagamento", 
-            "Data de Cadastro"
+            "Data do Gasto", 
+            "Data de Agendamento", 
+            "Status de Manutencao",
+            "Fornecedor",
+            "Data de Cadastro",
         };
         private JScrollPane sp;
         private JTable tabelaUnidades;
@@ -63,7 +64,7 @@ public class InformacoesPagamentosVisao extends JFrame
         public PainelCentro()
         {
             setLayout(new GridLayout(1,1));
-            tabelaUnidades = new JTable(PagamentoDadosTable.listarPagamentos(), colunas);
+            tabelaUnidades = new JTable(GastoDadosTable.listarGastos(), colunas);
             sp = new JScrollPane(tabelaUnidades);
             add(sp);
 
@@ -82,10 +83,10 @@ public class InformacoesPagamentosVisao extends JFrame
             {
                 int selectedRow = tabelaUnidades.getSelectedRow();
                 String id = ""+tabelaUnidades.getValueAt(selectedRow,0);
-                PagamentoModelo modelo;
-                modelo = PagamentoDadosTable.pesquisarPagamentoPorId(id);
+                GastoModelo modelo;
+                modelo = GastoDadosTable.pesquisarGastoPorId(id);
                 dispose();
-                new PagamentoVisao(true, modelo);
+                new GastoVisao(true, modelo);
             }
             else
             {
@@ -99,8 +100,8 @@ public class InformacoesPagamentosVisao extends JFrame
                 {
                     int selectedRow = tabelaUnidades.getSelectedRow();
                     String id = ""+tabelaUnidades.getValueAt(selectedRow,0);
-                    PagamentoModelo modelo;
-                    modelo = PagamentoDadosTable.pesquisarPagamentoPorId(id);
+                    GastoModelo modelo;
+                    modelo = GastoDadosTable.pesquisarGastoPorId(id);
                     modelo.eliminar();
                     dispose();
                 }
@@ -173,7 +174,7 @@ public class InformacoesPagamentosVisao extends JFrame
         {
             if(evt.getSource() == pesquisarBtn)
             {
-                PagamentoDadosTable.pesquisarPagamentos(getPesquisa());
+                GastoDadosTable.pesquisarGastos(getPesquisa());
             }
         }
     }
@@ -196,6 +197,6 @@ public class InformacoesPagamentosVisao extends JFrame
     public static void main(String args[])
     {
         Vector_Tabelas.inic();
-        new InformacoesPagamentosVisao();
+        new InformacoesGastosVisao();
     }
 }

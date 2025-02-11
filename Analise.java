@@ -8,8 +8,7 @@ Data: 14/01/2025
 
 /*
 1. Objectivo
-Este projeto tem o objetivo de gerenciar as informações das unidades, moradores, despesas, pagamentos
-e manutenção de um condomínio.
+Este projeto tem o objetivo de gerenciar as informações das unidades, moradores, gastos e pagamentos de um condomínio.
 
 2. Visao [Interfaces Graficas]
 - ApresentacaoVisao
@@ -19,13 +18,13 @@ e manutenção de um condomínio.
 - UnidadeVisao
 - MoradorVisao
 - DespesaVisao
-- ManutencaoVisao
+- GastosVisao
 - PagamentoVisao
 
 - InformacoesUnidadesVisao
 - InformacoesMoradoresVisao
 - InformacoesDespesasVisao
-- InformacoesManutencaoVisao
+- InformacoesGastosVisao
 - InformacoesPagamentoVisao
 
 3. Entidades Fortes e Seus Atributos (Modelo)
@@ -68,30 +67,25 @@ e manutenção de um condomínio.
     String tipoPagamento;     // Tipo de pagamento (ex: Mensalidade, Multa, Taxa Extra)
     String statusPagamento;   // Status do pagamento (ex: Concluído, Pendente, Atrasado)
 
-- DespesaModelo
-    int id
-    String descricao
-    String dataDespesa
-    double valor
-    String categoriaDespesa // Ex.: Manutenção, Água, Energia, etc.
-    String DataDeCadastro
+- GastosModelo
+    int id;
+    String descricao;
+    String dataGasto;
+    double valor;
+    String categoriaGasto; // Ex.: Manutenção, Água, Energia, etc.
+    String tipoGasto; // "DESPESA" ou "MANUTENÇÃO"
+    String dataCadastro;
 
-- ManutencaoModelo
-    int id
-    String descricao
-    String dataAgendamento
-    String statusManutencao // Ex.: Agendado, Em Andamento, Concluído
-    double custo
-    String fornecedor
-    String DataDeCadastro
-    UnidadeModelo unidade;
-    DespesaModelo despesa;
+    // Campos opcionais para manutenção
+    String dataAgendamento;
+    String statusManutencao;
+    String fornecedor;
 
 4. Ficheiro
 - UnidadeFile.dat
 - MoradorFile.dat
 - DespesaFile.dat
-- ManutencaoFile.dat
+- GastosFile.dat
 
 5. Tabelas de Apoio (Auxiliares) = Entidades Fracas
 

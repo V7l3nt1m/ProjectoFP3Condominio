@@ -78,7 +78,7 @@ public class ApresentacaoVisao extends JFrame
 
 
             add(scroll = new JScrollPane(areaPrincipal = new JTextArea(21,20)));
-            areaPrincipal.setText("\n\nBem vindo ao Sistema de Gestão de um Condomínio (SGC) \n\n" + "Este projeto tem o objetivo de gerenciar as informações de moradores, despesas, \nreservas de áreas comuns e manutenção de um condomínio.\n\n" + 
+            areaPrincipal.setText("\n\nBem vindo ao Sistema de Gestão de um Condomínio (SGC) \n\n" + "Este projeto tem o objetivo de gerenciar as informações de das unidades habitacionais, moradores, pagamentos e gastos de um condominio.\n\n\n" + 
             "Este projecto foi criado no ambito da cadeira de Fundamentos de Programação III no\n" + 
             "Curso de Engenharia Informática da UCAN. \n" + 
             "\nDados do Programador:\n" + "Nome: Valentim Loth Simão Prado\n" + "Nº Processo: 1000033031\n" + 

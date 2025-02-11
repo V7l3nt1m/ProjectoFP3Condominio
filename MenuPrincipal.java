@@ -169,7 +169,7 @@ public class MenuPrincipal extends JFrame
             popupMenu2.add(new JSeparator());
             popupMenu2.add(itemVerMoradores = new JMenuItem("Ver Registro"));
 
-            lblManutencao = new JLabel("Manutencao");
+            lblManutencao = new JLabel("Gastos");
             lblManutencao.setHorizontalAlignment(SwingConstants.CENTER);
             lblManutencao.setVerticalAlignment(SwingConstants.TOP);
             manutencaoImg = new ImageIcon("imagens/manu.png");
@@ -194,7 +194,6 @@ public class MenuPrincipal extends JFrame
             add(btnUnidade);
             add(btnMorador);
             add(btnPagamento);
-            add(btnDespesa);
             add(btnManutencao);
             add(btnTabelas);
             add(btnAjuda);
@@ -205,7 +204,6 @@ public class MenuPrincipal extends JFrame
             add(lblUni);
             add(lblMorador);
             add(lblPagamento);
-            add(lblDespesa);
             add(lblManutencao);
             add(lblTable);
             add(lblAjuda);
@@ -336,9 +334,12 @@ public class MenuPrincipal extends JFrame
                 else if(evt.getSource() == itemVerDespesas)
                     JOptionPane.showMessageDialog(null,"Item Ver Registro de Despesas");
                 else if(evt.getSource() == itemCadastrarManutencao)
-                    JOptionPane.showMessageDialog(null,"Item Cadastrar Manutencao");
+                {
+                    GastoModelo modelo = new GastoModelo();
+                    new GastoVisao(false, modelo);
+                }
                 else if(evt.getSource() == itemVerManutencao)
-                    JOptionPane.showMessageDialog(null,"Item Ver Registro de Manutencao");
+                    new InformacoesGastosVisao();
             }
         }
 
